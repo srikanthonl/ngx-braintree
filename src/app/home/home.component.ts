@@ -8,16 +8,13 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  paymentFinished: boolean = false;
-  paymentSucceded: boolean;
   constructor(private router: Router) { }
 
   ngOnInit() {
   }
 
   redirect(value: boolean) {
-    this.paymentSucceded = value;
-    this.paymentFinished = true;
+    this.router.navigate(['confirmation']);
   }
 
 }
