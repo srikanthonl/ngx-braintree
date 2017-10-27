@@ -1,8 +1,7 @@
-<app-braintree [clientTokenURL]="'api/braintree/getclienttoken'" [createPurchaseURL]="'api/braintree/createpurchase'">
-</app-braintree>
+<div>
+    <a routerLink=''>Home</a>
+</div>
 
-<!-- clientTokenURL – is your server-side API URL. 
-This is YOUR server-side API method which calls Braintree and gets the clientToken for the Drop-in UI. 
-
-createPurchaseURL – is your server-side API URL. 
-This is YOUR server-side API method which is called when the user clicks Pay. This method communicates with Braintree to create a purchase.  -->
+<div>
+    <router-outlet></router-outlet>
+</div>
