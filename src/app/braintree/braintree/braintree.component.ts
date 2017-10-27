@@ -14,6 +14,7 @@ export class BraintreeComponent implements OnInit {
     @Output() paymentStatus: EventEmitter<boolean> = new EventEmitter<boolean>();
     clientToken: string;
     instance: any;
+    showDropinUI: boolean = true;
 
     constructor(private braintreeService: BraintreeService) { }
 
@@ -34,6 +35,7 @@ export class BraintreeComponent implements OnInit {
     pay(): void {
         if (this.instance) {
             this.instance.requestPaymentMethod((err, payload) => {
+                this.showDropinUI = false;
                 this.braintreeService
                     .createPurchase(this.createPurchaseURL, payload.nonce)
                     .subscribe((status: boolean) => {
