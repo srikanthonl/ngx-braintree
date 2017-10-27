@@ -1,8 +1,11 @@
-<app-braintree 
-  [clientTokenURL]="'api/braintree/getclienttoken'" 
-  [createPurchaseURL]="'api/braintree/createpurchase'" 
+<app-braintree *ngIf="!paymentFinished" [clientTokenURL]="'api/braintree/getclienttoken'" [createPurchaseURL]="'api/braintree/createpurchase'"
   (paymentStatus)="redirect($event)">
 </app-braintree>
+
+<div *ngIf="paymentFinished">
+  <div *ngIf="paymentSucceded">Payment succeded. Thank you.</div>
+  <div *ngIf="!paymentSucceded">Something went wrong. Payment failed.</div>
+</div>
 
 <!-- clientTokenURL – is your server-side API URL. 
 This is YOUR server-side API method which calls Braintree and gets the clientToken for the Drop-in UI. 
