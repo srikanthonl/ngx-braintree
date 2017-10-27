@@ -1,4 +1,4 @@
-# Integrating Braintree in Angular applications
+<h1 align="center">Integrating Braintree in Angular applications</h1>
 
 This integration demonstrates the Drop-in UI integration of Braintree. The integration aims at componentizing the Braintree-Angular integration so that you can just use the component <app-braintree></app-braintree> anywhere in your application and expect the integration to work.
 
