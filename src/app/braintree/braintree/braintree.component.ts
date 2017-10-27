@@ -26,7 +26,6 @@ ngOnInit() {
         container: '#dropin-container'
         }, (createErr, instance) => {
         this.instance = instance;
-        console.log(this.instance);
         });
     });
 }
