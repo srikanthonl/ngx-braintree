@@ -8,4 +8,7 @@
 This is YOUR server-side API method which calls Braintree and gets the clientToken for the Drop-in UI. 
 
 createPurchaseURL – is your server-side API URL. 
-This is YOUR server-side API method which is called when the user clicks Pay. This method communicates with Braintree to create a purchase.  -->
+This is YOUR server-side API method which is called when the user clicks Pay. This method communicates with Braintree to create a purchase.  
+
+paymentStatus - is the event that you should listen to. This event is raised when a successful payment is done. It is here where you can call a method to redirect to a payment confirmation page.
+-->

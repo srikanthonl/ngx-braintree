@@ -1,6 +1,23 @@
 <h1 align="center">Integrating Braintree in Angular applications</h1>
 
 This integration demonstrates the Drop-in UI integration of Braintree. The integration aims at componentizing the Braintree-Angular integration so that you can just use the component `<app-braintree></app-braintree>` anywhere in your application and expect the integration to work.
+## Usage
+
+This application consists of a module named braintree. Import this module into your applications wherever braintree Drop-in UI is needed. The module consists of a component named braintree. The following is an example of how this component can be used:
+
+	<app-braintree 
+	  [clientTokenURL]="'api/braintree/getclienttoken'" 
+	  [createPurchaseURL]="'api/braintree/createpurchase'"
+	  (paymentStatus)="redirect($event)">
+	</app-braintree>
+
+clientTokenURL – is YOUR server-side API URL. 
+This is YOUR server-side API method which calls Braintree and gets the clientToken for the Drop-in UI. 
+
+createPurchaseURL – is YOUR server-side API URL. 
+This is YOUR server-side API method which is called when the user clicks Pay. This method communicates with Braintree to create a purchase.  
+
+paymentStatus - is the event that you should listen to. This event is raised when a successful payment is done. It is here where you can call a method to redirect to a payment confirmation page.
 
 ## Braintree Server API
 
