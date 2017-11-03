@@ -15,6 +15,7 @@ export class BraintreeComponent implements OnInit {
     clientToken: string;
     instance: any;
     showDropinUI: boolean = true;
+    interval: any;
 
     constructor(private braintreeService: BraintreeService) { }
 
@@ -23,13 +24,20 @@ export class BraintreeComponent implements OnInit {
             .getClientToken(this.clientTokenURL)
             .subscribe((clientToken: string) => {
                 this.clientToken = clientToken;
-                braintree.dropin.create({
-                    authorization: clientToken,
-                    container: '#dropin-container'
-                }, (createErr, instance) => {
-                    this.instance = instance;
-                });
+                this.interval = setInterval(() => { this.createDropin(); }, 0);
             });
+    }
+
+    createDropin() {
+        if (typeof braintree !== 'undefined') {
+            braintree.dropin.create({
+                authorization: this.clientToken,
+                container: '#dropin-container'
+            }, (createErr, instance) => {
+                this.instance = instance;
+            });
+            clearInterval(this.interval);
+        }
     }
 
     pay(): void {
