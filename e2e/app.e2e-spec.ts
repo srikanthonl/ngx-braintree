@@ -1,14 +1,14 @@
-import { BraintreeAngularPage } from './app.po';
+import { AppPage } from './app.po';
 
 describe('braintree-angular App', () => {
-  let page: BraintreeAngularPage;
+  let page: AppPage;
 
   beforeEach(() => {
-    page = new BraintreeAngularPage();
+    page = new AppPage();
   });
 
   it('should display welcome message', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('Welcome to app!!');
+    expect(page.getParagraphText()).toEqual('Welcome to app!');
   });
 });

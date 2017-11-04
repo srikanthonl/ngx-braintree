@@ -3,8 +3,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path:'confirmation', component: ConfirmationComponent }
+  { path: 'home', component: HomeComponent },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: 'confirmation', component: ConfirmationComponent }
 ];
 
 //Custom modules
