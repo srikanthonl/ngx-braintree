@@ -25,6 +25,10 @@ export class BraintreeComponent implements OnInit {
             .subscribe((clientToken: string) => {
                 this.clientToken = clientToken;
                 this.interval = setInterval(() => { this.createDropin(); }, 0);
+            }, (error) => {
+                console.log(`Please make sure your braintree server api is configured properly
+                 in proxy.config.json and running. For more information please refer the readme 
+                 file of this project.`);
             });
     }
 
