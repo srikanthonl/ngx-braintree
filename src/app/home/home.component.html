@@ -1,7 +1,4 @@
-<app-braintree 
-    [clientTokenURL]="'api/braintree/getclienttoken'" 
-    [createPurchaseURL]="'api/braintree/createpurchase'" 
-    (paymentStatus)="redirect($event)">
+<app-braintree [clientTokenURL]="'api/braintree/getclienttoken'" [createPurchaseURL]="'api/braintree/createpurchase'" (paymentStatus)="redirect($event)">
 </app-braintree>
 
 <!-- clientTokenURL – is your server-side API URL. 
