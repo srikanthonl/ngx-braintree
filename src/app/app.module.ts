@@ -15,6 +15,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,8 +24,8 @@ import { ConfirmationComponent } from './confirmation/confirmation.component';
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(routes),
-    BraintreeModule
+    BraintreeModule,
+    RouterModule.forRoot(routes)
   ],
   providers: [],
   bootstrap: [AppComponent]

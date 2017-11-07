@@ -17,10 +17,10 @@ import { BraintreeComponent } from './braintree/braintree.component';
     HttpModule
   ],
   declarations: [BraintreeComponent, BraintreescriptDirective],
-  exports:[
+  exports: [
     BraintreeComponent
   ],
-  providers:[
+  providers: [
     { provide: BraintreeService, useClass: BraintreeService }
   ]
 })
