@@ -30,14 +30,12 @@ export class BraintreeComponent implements OnInit {
   }
 
   pay(instance): void {
-    console.log('in here: ' + instance);
     if (instance) {
       instance.requestPaymentMethod((err, payload) => {
         this.showDropinUI = false;
         this.braintreeService
           .createPurchase(this.createPurchaseURL, payload.nonce)
           .subscribe((status: boolean) => {
-            console.log(status);
             if (status)
               this.paymentStatus.emit(true);
             else
