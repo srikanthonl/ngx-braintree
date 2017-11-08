@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 
 //Directives
 import { BraintreescriptDirective } from './directives/braintreescript.directive';
@@ -14,7 +14,7 @@ import { BraintreeComponent } from './braintree/braintree.component';
 @NgModule({
   imports: [
     CommonModule,
-    HttpModule
+    HttpClientModule
   ],
   declarations: [BraintreeComponent, BraintreescriptDirective],
   exports: [
