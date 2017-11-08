@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
-import { BraintreeService } from '../services/braintree.service';
+import { BraintreeService } from '../../services/braintree.service';
 
 @Component({
   selector: 'app-braintree',
