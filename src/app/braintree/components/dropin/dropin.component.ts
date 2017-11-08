@@ -21,7 +21,6 @@ export class DropinComponent implements OnInit {
 
   createDropin() {
     if (typeof braintree !== 'undefined') {
-      console.log(this.clientToken);
       braintree.dropin.create({
         authorization: this.clientToken,
         container: '#dropin-container'

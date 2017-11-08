@@ -9,7 +9,7 @@ import { BraintreescriptDirective } from './directives/braintreescript.directive
 import { BraintreeService } from './services/braintree.service';
 
 //Components
-import { BraintreeComponent } from './braintree/braintree.component';
+import { BraintreeComponent } from './containers/braintree/braintree.component';
 import { DropinComponent } from './components/dropin/dropin.component';
 
 @NgModule({
