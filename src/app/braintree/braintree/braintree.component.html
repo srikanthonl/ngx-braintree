@@ -1,7 +1,2 @@
-<div appBraintreescript *ngIf="showDropinUI">
-  <div id="dropin-container"></div>
-  <button (click)="pay()" *ngIf="clientToken">Pay</button>
-</div>
-<div *ngIf="!showDropinUI">
-  Please wait...
-</div>
+<app-dropin *ngIf="showDropinUI && clientToken" [clientToken]="clientToken" (pay)="pay($event)"></app-dropin>
+<div *ngIf="!showDropinUI">Please wait...</div>
