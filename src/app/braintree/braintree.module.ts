@@ -10,13 +10,18 @@ import { BraintreeService } from './services/braintree.service';
 
 //Components
 import { BraintreeComponent } from './braintree/braintree.component';
+import { DropinComponent } from './components/dropin/dropin.component';
 
 @NgModule({
   imports: [
     CommonModule,
     HttpClientModule
   ],
-  declarations: [BraintreeComponent, BraintreescriptDirective],
+  declarations: [
+    BraintreeComponent,
+    BraintreescriptDirective,
+    DropinComponent
+  ],
   exports: [
     BraintreeComponent
   ],
