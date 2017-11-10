@@ -13,7 +13,7 @@ export class BraintreeComponent implements OnInit {
   @Input() createPurchaseURL: string;
   @Output() paymentStatus: EventEmitter<boolean> = new EventEmitter<boolean>();
   clientToken: string;
-  showDropinUI: boolean = true;
+  showDropinUI = true;
 
   constructor(private braintreeService: BraintreeService) { }
 
@@ -24,7 +24,7 @@ export class BraintreeComponent implements OnInit {
         this.clientToken = clientToken;
       }, (error) => {
         console.log(`Please make sure your braintree server api is configured properly
-               in proxy.config.json and running. For more information please refer the readme 
+               in proxy.config.json and running. For more information please refer the readme
                file of this project.`);
       });
   }
@@ -36,10 +36,11 @@ export class BraintreeComponent implements OnInit {
         this.braintreeService
           .createPurchase(this.createPurchaseURL, payload.nonce)
           .subscribe((status: boolean) => {
-            if (status)
+            if (status) {
               this.paymentStatus.emit(true);
-            else
+            } else {
               this.paymentStatus.emit(false);
+            }
           });
       });
     }

@@ -25,10 +25,11 @@ export class BraintreeService {
     return this.http
       .post(createPurchaseURL, { nonce: nonce })
       .map((response: any) => {
-        if (!response.Errors)
+        if (!response.Errors) {
           return true;
-        else
+        } else {
           return false;
+        }
       });
   }
 

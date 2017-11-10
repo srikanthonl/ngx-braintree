@@ -15,8 +15,9 @@ export class HomeComponent implements OnInit {
   }
 
   redirect(value: boolean) {
-    if (value)
+    if (value) {
       this.router.navigate(['confirmation']);
+    }
   }
 
 }
