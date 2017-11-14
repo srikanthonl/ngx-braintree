@@ -3,7 +3,7 @@
 This integration demonstrates the Drop-in UI integration of Braintree. The integration aims at componentizing the Braintree-Angular integration so that you can just use the component `<app-braintree></app-braintree>` anywhere in your application and expect the integration to work. This project will be constantly improved/upgraded.
 ## Usage
 
-> Note: Although this project works, this is still work in progress.
+> Note: Although this project works, this is work in progress.
 
 Edit `proxy.config.json` file to reflect your braintree server API URL.
 
