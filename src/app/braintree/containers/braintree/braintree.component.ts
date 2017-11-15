@@ -5,7 +5,10 @@ import { BraintreeService } from '../../services/braintree.service';
   selector: 'app-braintree',
   templateUrl: './braintree.component.html',
   styleUrls: ['./braintree.component.css'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  providers: [
+    { provide: BraintreeService, useClass: BraintreeService }
+  ]
 })
 export class BraintreeComponent implements OnInit {
 
