@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 
 // Directives
 import { BraintreescriptDirective } from './directives/braintreescript.directive';
@@ -11,8 +10,7 @@ import { DropinComponent } from './components/dropin/dropin.component';
 
 @NgModule({
   imports: [
-    CommonModule,
-    HttpClientModule
+    CommonModule
   ],
   declarations: [
     BraintreeComponent,

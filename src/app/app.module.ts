@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 
 // Custom modules
 import { BraintreeModule } from './braintree/braintree.module';
@@ -24,7 +25,8 @@ const routes: Routes = [
   imports: [
     BrowserModule,
     BraintreeModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
