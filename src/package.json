@@ -1,0 +1,27 @@
+{
+  "name": "ngx-braintree",
+  "version": "0.1.12",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/srikanthonl/ngx-braintree"
+  },
+  "author": {
+    "name": "srikanthonl",
+    "email": "srikanth@srikanth.onl"
+  },
+  "keywords": [
+    "angular"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/srikanthonl/ngx-braintree/issues"
+  },
+  "main": "ngx-braintree.umd.js",
+  "module": "ngx-braintree.js",
+  "jsnext:main": "ngx-braintree.js",  "typings": "ngx-braintree.d.ts",
+  "peerDependencies": {
+    "@angular/core": "^4.0.0",
+    "rxjs": "^5.1.0",
+    "zone.js": "^0.8.4"
+  }
+}
