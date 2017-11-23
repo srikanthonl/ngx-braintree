@@ -2,12 +2,10 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BraintreeComponent } from './braintree.component';
 import { BraintreeDirective } from './braintree.directive';
-import { BraintreePipe } from './braintree.pipe';
 import { BraintreeService } from './braintree.service';
 
 export * from './braintree.component';
 export * from './braintree.directive';
-export * from './braintree.pipe';
 export * from './braintree.service';
 
 @NgModule({
@@ -16,13 +14,11 @@ export * from './braintree.service';
   ],
   declarations: [
     BraintreeComponent,
-    BraintreeDirective,
-    BraintreePipe
+    BraintreeDirective
   ],
   exports: [
     BraintreeComponent,
-    BraintreeDirective,
-    BraintreePipe
+    BraintreeDirective
   ]
 })
 export class BraintreeModule {
