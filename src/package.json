@@ -6,11 +6,11 @@
     "url": "https://github.com/srikanthonl/ngx-braintree"
   },
   "author": {
-    "name": "srikanthonl",
+    "name": "srikanth",
     "email": "srikanth@srikanth.onl"
   },
   "keywords": [
-    "angular"
+    "angular", "braintree", "integration", "angular braintree integration", "angular 4", "angular 5"
   ],
   "license": "MIT",
   "bugs": {
