@@ -1,105 +1,55 @@
-<h1 align="center">Integrating Braintree in Angular applications</h1>
+<h1>Integrating Braintree in Angular applications</h1>
 
-This integration demonstrates the Drop-in UI integration of Braintree. The integration aims at componentizing the Braintree-Angular integration so that you can just use the component `<app-braintree></app-braintree>` anywhere in your application and expect the integration to work. This project will be constantly improved/upgraded.
+This module facilitates the Dropin UI integration of Braintree. The integration aims at componentizing the Braintree-Angular integration so that you can just use the component `<ngx-braintree></ngx-braintree>` anywhere in your application and expect the integration to work. 
+
 ## Usage
 
-> Note: Although this project works, this is work in progress.
+> Note: Although this package works without any issues, the project is currently in a pre-release version and the final/stable version will be released very soon.
 
-Edit `proxy.config.json` file to reflect your braintree server API URL.
+First, install `ngx-braintree` by issuing the following command:
 
-This application consists of a module named braintree. Import this module into your applications wherever braintree Drop-in UI is needed. The module consists of a component named braintree. The following is an example of how this component can be used:
+> npm install ngx-braintree --save
 
-	<app-braintree 
-	  [clientTokenURL]="'api/braintree/getclienttoken'" 
-	  [createPurchaseURL]="'api/braintree/createpurchase'"
-	  (paymentStatus)="redirect($event)">
-	</app-braintree>
+After the above step is done, import it into your module:
 
-clientTokenURL – is YOUR server-side API URL. 
+> import { BraintreeModule } from 'ngx-braintree';
+
+`ngx-braintree` uses `HttpClientModule`, so import that as well:
+
+> import { HttpClientModule } from '@angular/common/http';
+
+Don't forget to include `BraintreeModule.forRoot()` and `HttpClientModule` in the imports section of @NgModule as shown below:
+
+>  imports: [ BrowserModule, BraintreeModule.forRoot(), HttpClientModule ]
+
+Now that you have finished all the above steps, you are now ready to use the ngx-braintree component in your application. Where ever you want the Braintree Dropin UI in your application, you can use the `<ngx-braintree></ngx-braintree>`component as shown below:
+
+	<ngx-braintree 
+	[clientTokenURL]="'api/braintree/getclienttoken'" 
+	[createPurchaseURL]="'api/braintree/createpurchase'" 
+	(paymentStatus)="redirect($event)">
+	</ngx-braintree>
+	
+**clientTokenURL** – is **YOUR** server-side API URL. 
 This is YOUR server-side API method which calls Braintree and gets the clientToken for the Drop-in UI. 
 
-createPurchaseURL – is YOUR server-side API URL. 
+**createPurchaseURL** – is **YOUR** server-side API URL. 
 This is YOUR server-side API method which is called when the user clicks Pay. This method communicates with Braintree to create a purchase.  
 
-paymentStatus - is the event that you should listen to. This event is raised when a successful payment is done. It is here where you can call a method to redirect to a payment confirmation page.
+**paymentStatus** - is the event that you should listen to. This event is raised when a successful payment is done. It is here where you can call a method to redirect to a payment confirmation page.
 
-## Braintree Server API
+<h1>Braintree Server API</h1>
 
-To successfully run this application, a simple API method which sends the clientToken to your Angular application for the Drop-in ui to render and another API method that allows you to make a purchase needs to be setup. This can be easily done on any platform by visiting the following link https://developers.braintreepayments.com/start/hello-server/dotnet
+Along with the client side work (which `ngx-braintree` component fully takes care of), Braintree also requires us to write two server side API methods. To successfully use the `ngx-braintree` component, a simple API with two methods is required. One method's URL is the value for the **clientTokenURL** and other method's URL is the value for the **createPurchaseURL** properties of the `ngx-braintree` component. These API methods can be developed very easily on any server platform by visiting the following link https://developers.braintreepayments.com/start/hello-server/dotnet
 
-or the following sample code can be used if you are using a .NET Web API
+<h1>Issues</h1>
 
-1. First install Braintree into your .NET Web API application using the following command
-Install-Package Braintree
-2. The following two methods can be used that provide the clientToken to your Angular-Braintree application and a purchase method which gets called when the user clicks pay.
+Please report any issues/feature requests here: https://github.com/srikanthonl/ngx-braintree/issues
 
-Note: You might need to allow CORS for specific domains in these API methods. As an example all domains are allowed in the following code.
+<h1>Change Log</h1>
 
-    public class BraintreeController : ApiController
-    {
-		[EnableCors(origins: "*", headers: "*", methods: "*")]
-        [Route("api/braintree/getclienttoken")]
-        public HttpResponseMessage GetClientToken()
-        {
-            //Please feel free to use your own Braintree Sandbox details here.
-            var gateway = new BraintreeGateway
-            {
-                Environment = Braintree.Environment.SANDBOX,
-                MerchantId = "3vrktnc56t4kgkxn",
-                PublicKey = "fh54mmy7zcxkwpws",
-                PrivateKey = "1839951596265bd0f61bf6a8712f4419"
-            };
-
-            var clientToken = gateway.ClientToken.Generate();
-            HttpResponseMessage response = Request.CreateResponse(clientToken);
-            return response;
-        }
-
-        public class Nonce
-        {
-            public string nonce;
-
-            public Nonce(string nonce)
-            {
-                this.nonce = nonce;
-            }
-        }
-
-		[EnableCors(origins: "*", headers: "*", methods: "*")]
-        [Route("api/braintree/createpurchase")]
-        public HttpResponseMessage Post(Nonce nonce)
-        {
-            var gateway = new BraintreeGateway
-            {
-                Environment = Braintree.Environment.SANDBOX,
-                MerchantId = "3vrktnc56t4kgkxn",
-                PublicKey = "fh54mmy7zcxkwpws",
-                PrivateKey = "1839951596265bd0f61bf6a8712f4419"
-            };
-
-            var request = new TransactionRequest
-            {
-                Amount = 10.00M,
-                PaymentMethodNonce = nonce.nonce,
-                Options = new TransactionOptionsRequest
-                {
-                    SubmitForSettlement = true
-                }
-            };
-
-            Result<Transaction> result = gateway.Transaction.Sale(request);
-            HttpResponseMessage response = Request.CreateResponse(result);
-            return response;
-        }
-
-    }
-
-    Note: Once this is done make sure you edit the proxy.config.json file's target value to the value that your Server API is running on.
-
-## Development server
-
-Run `npm start` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Further help
-
-For more information visit https://srikanth.onl/integrating-braintree-with-angular-applications/
+<h3>v0.1.15</h3>
+<ul>
+<li>The package is now stable.</li>
+<li>Updated Readme.</li>
+</ul>
