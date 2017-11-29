@@ -4,8 +4,7 @@ declare var braintree: any;
 
 @Component({
   selector: 'ngx-braintree',
-  template: `<h1>Braintree component</h1>
-  <div *ngIf="showDropinUI && clientToken" ngxBraintreeDirective>
+  template: `<div *ngIf="showDropinUI && clientToken" ngxBraintreeDirective>
     <div id="dropin-container"></div>
     <button (click)="pay()" *ngIf="clientToken">Pay</button>
   </div>

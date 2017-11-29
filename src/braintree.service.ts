@@ -8,7 +8,7 @@ import 'rxjs/add/observable/throw';
 @Injectable()
 export class BraintreeService {
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getClientToken(clientTokenURL: string): Observable<string> {
     return this.http
@@ -21,15 +21,11 @@ export class BraintreeService {
       });
   }
 
-  createPurchase(createPurchaseURL: string, nonce: string): Observable<boolean> {
+  createPurchase(createPurchaseURL: string, nonce: string): Observable<any> {
     return this.http
       .post(createPurchaseURL, { nonce: nonce })
       .map((response: any) => {
-        if (!response.Errors) {
-          return true;
-        } else {
-          return false;
-        }
+        return response;
       });
   }
 }
