@@ -54,7 +54,6 @@ export class BraintreeComponent implements OnInit {
         this.service
           .createPurchase(this.createPurchaseURL, payload.nonce)
           .subscribe((status: any) => {
-            console.log(status);
             this.paymentStatus.emit(status);
           });
       });
