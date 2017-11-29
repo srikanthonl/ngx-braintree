@@ -36,7 +36,7 @@ This is YOUR server-side API method which calls Braintree and gets the clientTok
 **createPurchaseURL** – is **YOUR** server-side API URL. 
 This is YOUR server-side API method which is called when the user clicks Pay. This method communicates with Braintree to create a purchase.  
 
-**paymentStatus** - is the event that you should listen to. This event is raised when a successful payment is done. It is here where you can call a method to redirect to a payment confirmation page.
+**paymentStatus** - is the event that you should listen to. This event is emitted when a payment process finishes. The data that this event emits is the response that your purchase URL method (createPurchaseURL's value) returns. Returning the same response, helps you in accessing the response object on the client side and also helps you make decisions whether to redirect user to the payment confirmation page (if the payment succeeded) or to do something else if anyhing went wrong.
 
 <h1>Braintree Server API</h1>
 
@@ -47,6 +47,12 @@ Along with the client side work (which `ngx-braintree` component fully takes car
 Please report any issues/feature requests here: https://github.com/srikanthonl/ngx-braintree/issues
 
 <h1>Change Log</h1>
+
+<h3>v0.1.16</h3>
+<ul>
+<li>paymentStatus event is now changed to return whatever the API method of createPurchaseURL returns.</li>
+<li>removed the unnecessary Braintree Component heading</li>
+</ul>
 
 <h3>v0.1.15</h3>
 <ul>

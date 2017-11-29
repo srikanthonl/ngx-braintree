@@ -7,15 +7,13 @@ declare var braintree: any;
   template: `<div *ngIf="showDropinUI && clientToken" ngxBraintreeDirective>
     <div id="dropin-container"></div>
     <button (click)="pay()" *ngIf="clientToken">Pay</button>
-  </div>
-  <div *ngIf="!showDropinUI && !paymentSucceeded">Please wait...</div>
-  <div *ngIf="paymentSucceeded">Payment Succeeded. Thank you</div>`
+  </div>`
 })
 export class BraintreeComponent implements OnInit {
 
   @Input() clientTokenURL: string;
   @Input() createPurchaseURL: string;
-  @Output() paymentStatus: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() paymentStatus: EventEmitter<any> = new EventEmitter<any>();
   clientToken: string;
   showDropinUI = true;
   paymentSucceeded = false;
@@ -55,13 +53,9 @@ export class BraintreeComponent implements OnInit {
         this.showDropinUI = false;
         this.service
           .createPurchase(this.createPurchaseURL, payload.nonce)
-          .subscribe((status: boolean) => {
-            if (status) {
-              this.paymentSucceeded = true;
-              this.paymentStatus.emit(true);
-            } else {
-              this.paymentStatus.emit(false);
-            }
+          .subscribe((status: any) => {
+            console.log(status);
+            this.paymentStatus.emit(status);
           });
       });
     }
