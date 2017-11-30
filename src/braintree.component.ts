@@ -17,7 +17,6 @@ export class BraintreeComponent implements OnInit {
   @Output() paymentStatus: EventEmitter<any> = new EventEmitter<any>();
   clientToken: string;
   showDropinUI = true;
-  paymentSucceeded = false;
   interval: any;
   instance: any;
 
