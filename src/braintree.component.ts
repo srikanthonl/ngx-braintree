@@ -6,8 +6,9 @@ declare var braintree: any;
   selector: 'ngx-braintree',
   template: `<div *ngIf="showDropinUI && clientToken" ngxBraintreeDirective>
     <div id="dropin-container"></div>
-    <button (click)="pay()" *ngIf="clientToken" style="background-color: #009CDE; color: #f9f9f9; border: none; border-radius: 4px; height: 40px; line-height: 40px; font-size: 16px; cursor: pointer;">{{buttonText}}</button>
-  </div>`
+    <button (click)="pay()" *ngIf="clientToken">{{buttonText}}</button>
+  </div>`,
+  styles: ['button { background-color: #009CDE; color: #f9f9f9; border: none; border-radius: 4px; height: 40px; line-height: 40px; font-size: 16px; cursor: pointer; }']
 })
 export class BraintreeComponent implements OnInit {
 
@@ -21,7 +22,7 @@ export class BraintreeComponent implements OnInit {
   instance: any;
 
   //Optional inputs
-  @Input() buttonText: string = "Buy"; 
+  @Input() buttonText: string = "Buy";
 
   constructor(private service: BraintreeService) { }
 
