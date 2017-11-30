@@ -6,7 +6,7 @@ declare var braintree: any;
   selector: 'ngx-braintree',
   template: `<div *ngIf="showDropinUI && clientToken" ngxBraintreeDirective>
     <div id="dropin-container"></div>
-    <button (click)="pay()" *ngIf="clientToken">Pay</button>
+    <button (click)="pay()" *ngIf="clientToken" style="background-color: #009CDE; color: #f9f9f9; border: none; border-radius: 4px; height: 40px; line-height: 40px; font-size: 16px; cursor: pointer;">{{buttonText}}</button>
   </div>`
 })
 export class BraintreeComponent implements OnInit {
@@ -20,6 +20,9 @@ export class BraintreeComponent implements OnInit {
   interval: any;
   instance: any;
 
+  //Optional inputs
+  @Input() buttonText: string = "Buy"; 
+
   constructor(private service: BraintreeService) { }
 
   ngOnInit() {
@@ -30,8 +33,7 @@ export class BraintreeComponent implements OnInit {
         this.interval = setInterval(() => { this.createDropin(); }, 0);
       }, (error) => {
         console.log(`Please make sure your braintree server api is configured properly
-               in proxy.config.json and running. For more information please refer the readme
-               file of this project.`);
+               running and accessible.`);
       });
   }
 
