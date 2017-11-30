@@ -25,9 +25,9 @@ Now in the imports section of @NgModule add these two lines `BraintreeModule.for
 Now that you have finished all the above steps, you are now ready to use the ngx-braintree component in your application. Where ever you want the Braintree Dropin UI in your application, you can use the `<ngx-braintree></ngx-braintree>`component as shown below:
 
 	<ngx-braintree 
-	[clientTokenURL]="'api/braintree/getclienttoken'" 
-	[createPurchaseURL]="'api/braintree/createpurchase'" 
-	(paymentStatus)="redirect($event)">
+		[clientTokenURL]="'api/braintree/getclienttoken'" 
+		[createPurchaseURL]="'api/braintree/createpurchase'" 
+		(paymentStatus)="redirect($event)">
 	</ngx-braintree>
 	
 **clientTokenURL** – is **YOUR** server-side API URL. 
@@ -43,12 +43,13 @@ This is YOUR server-side API method which is called when the user clicks Pay. Th
 <h1>Optional configuration for `ngx-braintree` component</h1>
 
 The `ngx-braintree` component can be optionally configured by providing the text of the pay button. The default text on the button is Buy. If you want to have a custom text such as 'Pay' or 'Pay Now' instead of 'Buy', you can configure it. Pass the text you desire as the value of the input property as shown below:
+
 	<ngx-braintree 
-  	[clientTokenURL]="'api/braintree/getclienttoken'" 
-  	[createPurchaseURL]="'api/braintree/createpurchase'" 
-  	(paymentStatus)="onPaymentStatus($event)"
-  	**[buttonText]="'Pay'"**>
-</ngx-braintree>
+		[clientTokenURL]="'api/braintree/getclienttoken'" 
+		[createPurchaseURL]="'api/braintree/createpurchase'" 
+		(paymentStatus)="onPaymentStatus($event)"
+		[buttonText]="'Pay'">
+	</ngx-braintree>
 
 > Make sure the value of **buttonText** is enclosed in single quotes
 
