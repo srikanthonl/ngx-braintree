@@ -52,6 +52,7 @@ The `ngx-braintree` component can be optionally configured by providing the text
 	</ngx-braintree>
 
 > Make sure the value of **buttonText** is enclosed in single quotes
+> More optional configurations in future releases.
 
 <h1>Braintree Server API</h1>
 
@@ -60,6 +61,10 @@ Along with the client side work (which `ngx-braintree` component fully takes car
 <h1>Issues</h1>
 
 Please report any issues/feature requests here: https://github.com/srikanthonl/ngx-braintree/issues
+
+<h1>More Information</h1>
+
+https://srikanth.onl/integrating-braintree-with-angular-applications/
 
 <h1>Change Log</h1>
 <h3>v0.2.0</h3>
