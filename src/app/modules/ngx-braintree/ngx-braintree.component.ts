@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { BraintreeService } from './braintree.service';
+import { NgxBraintreeService } from './ngx-braintree.service';
 declare var braintree: any;
 
 @Component({
@@ -10,7 +10,7 @@ declare var braintree: any;
   </div>`,
   styles: ['button { background-color: #009CDE; color: #f9f9f9; border: none; border-radius: 4px; height: 40px; line-height: 40px; font-size: 16px; cursor: pointer; }']
 })
-export class BraintreeComponent implements OnInit {
+export class NgxBraintreeComponent implements OnInit {
 
   @Input() clientTokenURL: string;
   @Input() createPurchaseURL: string;
@@ -23,7 +23,7 @@ export class BraintreeComponent implements OnInit {
   //Optional inputs
   @Input() buttonText: string = "Buy";
 
-  constructor(private service: BraintreeService) { }
+  constructor(private service: NgxBraintreeService) { }
 
   ngOnInit() {
     this.service
@@ -61,4 +61,5 @@ export class BraintreeComponent implements OnInit {
       });
     }
   }
+
 }

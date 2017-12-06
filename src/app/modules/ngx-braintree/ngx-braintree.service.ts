@@ -6,7 +6,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 
 @Injectable()
-export class BraintreeService {
+export class NgxBraintreeService {
 
   constructor(private http: HttpClient) { }
 
@@ -28,4 +28,5 @@ export class BraintreeService {
         return response;
       });
   }
+
 }

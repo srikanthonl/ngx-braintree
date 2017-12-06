@@ -4,7 +4,7 @@ import { DOCUMENT } from '@angular/platform-browser';
 @Directive({
   selector: '[ngxBraintreeDirective]'
 })
-export class BraintreeDirective implements OnInit, OnDestroy {
+export class NgxBraintreeDirective implements OnInit, OnDestroy {
 
   script: any;
 
@@ -20,4 +20,5 @@ export class BraintreeDirective implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.renderer.removeChild(this.document.body, this.script);
   }
+
 }
