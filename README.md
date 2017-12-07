@@ -12,7 +12,7 @@ First, if your application is in Angular 5.x, install `ngx-braintree` by issuing
 
 If your application is an Angular 4.x application, install `ngx-braintree` by issuing the following command:
 
-> npm install ngx-braintree@v1
+> npm install ngx-braintree@a4
 
 After the above step is done, import it into your module:
 
