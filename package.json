@@ -1,6 +1,11 @@
 {
   "name": "ngx-braintree",
-  "version": "1.0.0",
+  "version": "1.0.1",
+  "description": "Integrating braintree dropin UI in Angular 4.x and Angular 5.x applications",
+  "homepage": "https://srikanth.onl/integrating-braintree-with-angular-applications/",
+  "bugs": {
+    "url": "https://github.com/srikanthonl/ngx-braintree/issues"
+  },
   "license": "MIT",
   "scripts": {
     "ng": "ng",
@@ -47,5 +52,26 @@
     "ts-node": "~3.2.0",
     "tslint": "~5.7.0",
     "typescript": ">=2.1.0 <2.4.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/srikanthonl/ngx-braintree.git"
+  },
+  "author": "srikanth srikanth@srikanth.onl",
+  "contributors": [
+    {
+      "name": "srikanth",
+      "email": "srikanth@srikanth.onl"
+    }
+  ],
+  "keywords": [
+    "integrating braintree with Angular 4, Angular 5 applications",
+    "braintree",
+    "braintree dropin UI",
+    "angular",
+    "angular 4",
+    "angular 5",
+    "integration",
+    "angular braintree integration"
+  ]
 }

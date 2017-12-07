@@ -16,15 +16,15 @@ If your application is an Angular 4.x application, install `ngx-braintree` by is
 
 After the above step is done, import it into your module:
 
-> import { BraintreeModule } from 'ngx-braintree';
+> import { NgxBraintreeModule } from 'ngx-braintree';
 
 `ngx-braintree` uses `HttpClientModule`, so import that as well:
 
 > import { HttpClientModule } from '@angular/common/http';
 
-Now in the imports section of @NgModule add these two lines `BraintreeModule` and `HttpClientModule` as shown below:
+Now in the imports section of @NgModule add these two lines `NgxBraintreeModule` and `HttpClientModule` as shown below:
 
->  imports: [ BraintreeModule, HttpClientModule ]
+>  imports: [ NgxBraintreeModule, HttpClientModule ]
 
 Now that you have finished all the above steps, you are now ready to use the ngx-braintree component in your application. Where ever you want the Braintree Dropin UI in your application, you can use the `<ngx-braintree></ngx-braintree>`component as shown below:
 
@@ -108,5 +108,7 @@ As mentioned above, along with the client side work (which `ngx-braintree` compo
 Please report any issues/feature requests here: https://github.com/srikanthonl/ngx-braintree/issues
 
 <h1>More Information</h1>
+
+For more information please visit
 
 https://srikanth.onl/integrating-braintree-with-angular-applications/
