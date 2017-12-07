@@ -1,14 +1,18 @@
 <h1>Integrating Braintree in Angular applications</h1>
 
-This module integrates the Braintree Dropin UI integration with your Angular application. The integration aims at componentizing the Braintree-Angular integration so that you can just use the component `<ngx-braintree></ngx-braintree>` anywhere in your application and expect the integration to work. 
+This module integrates the Braintree Dropin UI integration with your Angular application. The integration aims at componentizing the Braintree-Angular integration so that you can just use the component `<ngx-braintree></ngx-braintree>` anywhere in your application and you are good to go. 
 
 ## Usage
 
-> Note: Although this package works without any issues, the project is currently in a pre-release version and the final/stable version will be released very soon.
+> Note: This is not an official Braintree Angular component.
 
-First, install `ngx-braintree` by issuing the following command:
+First, if your application is in Angular 5.x, install `ngx-braintree` by issuing the following command:
 
 > npm install ngx-braintree --save
+
+If your application is an Angular 4.x application, install `ngx-braintree` by issuing the following command:
+
+> npm install ngx-braintree@v1
 
 After the above step is done, import it into your module:
 
@@ -18,25 +22,67 @@ After the above step is done, import it into your module:
 
 > import { HttpClientModule } from '@angular/common/http';
 
-Now in the imports section of @NgModule add these two lines `BraintreeModule.forRoot()` and `HttpClientModule` as shown below:
+Now in the imports section of @NgModule add these two lines `BraintreeModule` and `HttpClientModule` as shown below:
 
->  imports: [ BraintreeModule.forRoot(), HttpClientModule ]
+>  imports: [ BraintreeModule, HttpClientModule ]
 
 Now that you have finished all the above steps, you are now ready to use the ngx-braintree component in your application. Where ever you want the Braintree Dropin UI in your application, you can use the `<ngx-braintree></ngx-braintree>`component as shown below:
 
 	<ngx-braintree 
 		[clientTokenURL]="'api/braintree/getclienttoken'" 
 		[createPurchaseURL]="'api/braintree/createpurchase'" 
-		(paymentStatus)="redirect($event)">
+		(paymentStatus)="onPaymentStatus($event)">
 	</ngx-braintree>
 	
 **clientTokenURL** – is **YOUR** server-side API URL. 
-This is YOUR server-side API method which calls Braintree and gets the clientToken for the Drop-in UI. 
+This is YOUR server-side API method which calls Braintree and gets the clientToken for the Drop-in UI. A sample server API method that gives the clientToken is as shown below (.NET Code). For more information read the Braintree Server API section below.
+
+		[Route("api/braintree/getclienttoken")]
+        public HttpResponseMessage GetClientToken()
+        {
+            var gateway = new BraintreeGateway
+            {
+                Environment = Braintree.Environment.SANDBOX,
+                MerchantId = "your_braintree_merchant_id",
+                PublicKey = "your_braintree_public_key",
+                PrivateKey = "your_braintree_private_key"
+            };
+
+            var clientToken = gateway.ClientToken.Generate();
+            HttpResponseMessage response = Request.CreateResponse(clientToken);
+            return response;
+        }
 
 **createPurchaseURL** – is **YOUR** server-side API URL. 
-This is YOUR server-side API method which is called when the user clicks Pay. This method communicates with Braintree to create a purchase.  
+This is YOUR server-side API method which is called when the user clicks Pay. This method communicates with Braintree to create a purchase. A sample server API method is as shown below (.NET Code).  For more information read the Braintree Server API section below.
 
-**paymentStatus** - is the event that you should listen to. This event is emitted when a payment process finishes. The event emits the response that your purchase URL API method (createPurchaseURL's value) returns. Returning the same response, helps you in accessing the response object on the client side and also helps you make decisions whether to redirect user to the payment confirmation page (if the payment succeeded) or to do something else if anything went wrong.
+		[Route("api/braintree/createpurchase")]
+        public HttpResponseMessage Post(string nonce)
+        {
+            var gateway = new BraintreeGateway
+            {
+                Environment = Braintree.Environment.SANDBOX,
+                MerchantId = "your_braintree_merchant_id",
+                PublicKey = "your_braintree_public_key",
+                PrivateKey = "your_braintree_private_key"
+            };
+
+            var request = new TransactionRequest
+            {
+                Amount = 1000.00M,
+                PaymentMethodNonce = nonce,
+                Options = new TransactionOptionsRequest
+                {
+                    SubmitForSettlement = true
+                }
+            };
+
+            Result<Transaction> result = gateway.Transaction.Sale(request);
+            HttpResponseMessage response = Request.CreateResponse(result);
+            return response;
+        }
+
+**paymentStatus** - is the event that you should listen to. onPaymentStatus() or you can use any name, is **YOUR** method in which you receive the payment status. The paymentStatus event is emitted when a payment process finishes. The event emits the response that your purchase URL API method (createPurchaseURL's value) returns. Returning the same response, helps you in accessing the response object on the client side and also helps you make decisions whether to redirect user to the payment confirmation page (if the payment succeeded) or to do something else if anything went wrong.
 
 > Make sure the values of **clientTokenURL** and **createPurchaseURL** are enclosed in single quotes
 
@@ -51,12 +97,11 @@ The `ngx-braintree` component can be optionally configured by providing the text
 		[buttonText]="'Pay'">
 	</ngx-braintree>
 
-> Make sure the value of **buttonText** is enclosed in single quotes
-> More optional configurations in future releases.
+> Make sure the value of **buttonText** is enclosed in single quotes.
 
 <h1>Braintree Server API</h1>
 
-Along with the client side work (which `ngx-braintree` component fully takes care of), Braintree also requires us to write two server side API methods. To successfully use the `ngx-braintree` component, a simple API with two methods is required. One method's URL is the value for the **clientTokenURL** and other method's URL is the value for the **createPurchaseURL** properties of the `ngx-braintree` component. These API methods can be developed very easily on any server platform by visiting the following link https://developers.braintreepayments.com/start/hello-server/dotnet
+As mentioned above, along with the client side work (which `ngx-braintree` component fully takes care of), Braintree also requires us to write two server side API methods. To successfully use the `ngx-braintree` component, a simple API with two methods is required (.NET code for those two methods is shown above). One method's URL is the value for the **clientTokenURL** and other method's URL is the value for the **createPurchaseURL** properties of the `ngx-braintree` component. These API methods can be developed very easily on any server platform by visiting the following link https://developers.braintreepayments.com/start/hello-server/dotnet
 
 <h1>Issues</h1>
 
@@ -65,23 +110,3 @@ Please report any issues/feature requests here: https://github.com/srikanthonl/n
 <h1>More Information</h1>
 
 https://srikanth.onl/integrating-braintree-with-angular-applications/
-
-<h1>Change Log</h1>
-<h3>v0.2.0</h3>
-<ul>
-<li>The Buy button text is now configurable. You can pass the text you desire using the buttonText input property of the ngx-braintree component.</li>
-<li>Applied styles for the Buy button.</li>
-<li>Updated Readme.</li>
-</ul>
-
-<h3>v0.1.16</h3>
-<ul>
-<li>paymentStatus event is now changed to return whatever the API method of createPurchaseURL returns.</li>
-<li>removed the unnecessary Braintree Component heading.</li>
-</ul>
-
-<h3>v0.1.15</h3>
-<ul>
-<li>The package is now stable.</li>
-<li>Updated Readme.</li>
-</ul>
