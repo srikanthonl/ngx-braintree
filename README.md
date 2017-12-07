@@ -16,7 +16,7 @@ If your application is an Angular 4.x application, install `ngx-braintree` by is
 
 After the above step is done, import it into your module:
 
-> import { BraintreeModule } from 'ngx-braintree';
+> import { NgxBraintreeModule } from 'ngx-braintree';
 
 `ngx-braintree` uses `HttpClientModule`, so import that as well:
 
