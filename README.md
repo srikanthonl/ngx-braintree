@@ -35,7 +35,7 @@ Now that you have finished all the above steps, you are now ready to use the ngx
 	</ngx-braintree>
 	
 **clientTokenURL** – is **YOUR** server-side API URL. 
-This is YOUR server-side API method which calls Braintree and gets the clientToken for the Drop-in UI. A sample server API method that gives the clientToken is as shown below (.NET Code). For more information read the Braintree Server API section below.
+This is YOUR server-side API method which calls Braintree and gets the clientToken for the Drop-in UI. A sample server API method that gives the clientToken is as shown below (.NET Code). `ngx-braintree` UI starts displaying the UI as soon as it receives the clientToken that your server provides. For more information read the Braintree Server API section below.
 
 		[Route("api/braintree/getclienttoken")]
         public HttpResponseMessage GetClientToken()
