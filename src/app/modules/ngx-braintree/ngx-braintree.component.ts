@@ -8,7 +8,9 @@ declare var braintree: any;
     <div id="dropin-container"></div>
     <button (click)="pay()" *ngIf="clientToken">{{buttonText}}</button>
   </div>`,
-  styles: ['button { background-color: #009CDE; color: #f9f9f9; border: none; border-radius: 4px; height: 40px; line-height: 40px; font-size: 16px; cursor: pointer; }']
+  styles: [`button { background-color: #009CDE;
+    color: #f9f9f9; border: none; border-radius: 4px; height: 40px;
+    line-height: 40px; font-size: 16px; cursor: pointer; }`]
 })
 export class NgxBraintreeComponent implements OnInit {
 
@@ -20,8 +22,8 @@ export class NgxBraintreeComponent implements OnInit {
   interval: any;
   instance: any;
 
-  //Optional inputs
-  @Input() buttonText: string = "Buy";
+  // Optional inputs
+  @Input() buttonText = 'Buy';
 
   constructor(private service: NgxBraintreeService) { }
 

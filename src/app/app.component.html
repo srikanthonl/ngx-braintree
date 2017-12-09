@@ -1,1 +1,6 @@
-<ngx-braintree [clientTokenURL]="'api/braintree/getclienttoken'" [createPurchaseURL]="'api/braintree/createpurchase'" (paymentStatus)="onPaymentStatus($event)"></ngx-braintree>
+<ngx-braintree 
+    [clientTokenURL]="'api/braintree/getclienttoken'" 
+    [createPurchaseURL]="'api/braintree/createpurchase'" 
+    [buttonText]="'Pay'"
+    (paymentStatus)="onPaymentStatus($event)">
+</ngx-braintree>
