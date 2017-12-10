@@ -4,3 +4,5 @@
     [buttonText]="'Pay'"
     (paymentStatus)="onPaymentStatus($event)">
 </ngx-braintree>
+
+<pre>{{ paymentResponse | json }}</pre>

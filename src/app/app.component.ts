@@ -7,8 +7,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'app';
+  paymentResponse: any;
 
   onPaymentStatus(response): void {
-    console.log(response);
+    this.paymentResponse = response;
   }
 }
