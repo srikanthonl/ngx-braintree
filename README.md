@@ -34,8 +34,8 @@ Now that you have finished all the above steps, you are now ready to use the ngx
 		(paymentStatus)="onPaymentStatus($event)">
 	</ngx-braintree>
 	
-**clientTokenURL** – is **YOUR** server-side API URL. 
-This is YOUR server-side API method which calls Braintree and gets the clientToken for the Drop-in UI. A sample server API method that gives the clientToken is as shown below (.NET Code). `ngx-braintree` starts displaying the UI as soon as it receives the clientToken that your server provides. For more information read the Braintree Server API section below.
+**clientTokenURL** – is **YOUR** server-side GET API URL. 
+This is YOUR server-side GET API method which calls Braintree and gets the clientToken for the Drop-in UI. A sample server API method that gives the clientToken is as shown below (.NET Code). `ngx-braintree` starts displaying the UI as soon as it receives the clientToken that your server provides. For more information read the Braintree Server API section below.
 
 		[Route("api/braintree/getclienttoken")]
         public HttpResponseMessage GetClientToken()
@@ -53,8 +53,8 @@ This is YOUR server-side API method which calls Braintree and gets the clientTok
             return response;
         }
 
-**createPurchaseURL** – is **YOUR** server-side API URL. 
-This is YOUR server-side API method which is called when the user clicks Pay. This method communicates with Braintree to create a purchase. A sample server API method is as shown below (.NET Code).  For more information read the Braintree Server API section below.
+**createPurchaseURL** – is **YOUR** server-side POST API URL. 
+This is YOUR server-side POST API method which is called when the user clicks Pay. This method communicates with Braintree to create a purchase. A sample server API method is as shown below (.NET Code). For more information read the Braintree Server API section below.
 
 		[Route("api/braintree/createpurchase")]
         public HttpResponseMessage Post(string nonce)
