@@ -23,7 +23,7 @@ export class NgxBraintreeService {
 
   createPurchase(createPurchaseURL: string, nonce: string): Observable<any> {
     return this.http
-      .post(createPurchaseURL, { nonce: nonce })
+      .post(createPurchaseURL + "?nonce=" + nonce, {})
       .map((response: any) => {
         return response;
       });
