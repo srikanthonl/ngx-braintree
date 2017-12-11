@@ -34,8 +34,8 @@ Now that you have finished all the above steps, you are now ready to use the ngx
 		(paymentStatus)="onPaymentStatus($event)">
 	</ngx-braintree>
 	
-**clientTokenURL** – is **YOUR** server-side GET API URL. 
-This is YOUR server-side GET API method which calls Braintree and gets the clientToken for the Drop-in UI. A sample server API method that gives the clientToken is as shown below (.NET Code). `ngx-braintree` starts displaying the UI as soon as it receives the clientToken that your server provides. For more information read the Braintree Server API section below.
+**clientTokenURL** – is **YOUR** server-side API GET URL. 
+This is YOUR server-side API GET method which calls Braintree and gets the clientToken for the Drop-in UI. A sample server API method that gives the clientToken is as shown below (.NET Code). `ngx-braintree` starts displaying the UI as soon as it receives the clientToken that your server provides. For more information read the Braintree Server API section below.
 
 		[Route("api/braintree/getclienttoken")]
         public HttpResponseMessage GetClientToken()
@@ -53,11 +53,23 @@ This is YOUR server-side GET API method which calls Braintree and gets the clien
             return response;
         }
 
-**createPurchaseURL** – is **YOUR** server-side POST API URL. 
-This is YOUR server-side POST API method which is called when the user clicks Pay. This method communicates with Braintree to create a purchase. A sample server API method is as shown below (.NET Code). For more information read the Braintree Server API section below.
+**createPurchaseURL** – is **YOUR** server-side API POST URL.
+This is YOUR server-side API POST method which is called when the user clicks Pay. `ngx-braintree` will post the payment method nonce to the URL you provide through which you process the payment from your server and return the response. A sample server API POST method is as shown below (.NET Code). 
 
-		[Route("api/braintree/createpurchase")]
-        public HttpResponseMessage Post(string nonce)
+    Note: It is important to set your POST method's parameter as `Nonce nonce` as shown below.
+
+        public class Nonce
+        {
+            public string nonce;
+
+            public Nonce(string nonce)
+            {
+                this.nonce = nonce;
+            }
+        }
+
+        [Route("api/braintree/createpurchase")]
+        public HttpResponseMessage Post(Nonce nonce)
         {
             var gateway = new BraintreeGateway
             {
@@ -70,7 +82,7 @@ This is YOUR server-side POST API method which is called when the user clicks Pa
             var request = new TransactionRequest
             {
                 Amount = 1000.00M,
-                PaymentMethodNonce = nonce,
+                PaymentMethodNonce = nonce.nonce,
                 Options = new TransactionOptionsRequest
                 {
                     SubmitForSettlement = true
@@ -82,7 +94,7 @@ This is YOUR server-side POST API method which is called when the user clicks Pa
             return response;
         }
 
-**paymentStatus** - is the event that you should listen to. onPaymentStatus() or you can use any name, is **YOUR** method in which you receive the payment status. The paymentStatus event is emitted when a payment process finishes. The event emits the response that your purchase URL API method (createPurchaseURL's value) returns. Returning the same response, helps you in accessing the response object on the client side and also helps you make decisions whether to redirect user to the payment confirmation page (if the payment succeeded) or to do something else if anything went wrong.
+**paymentStatus** - is the event that you should listen to. The `paymentStatus` event is emitted when a payment process finishes. The event emits the response that your purchase URL API method (createPurchaseURL) returns. Returning the same response, helps you in accessing the response object on the client side and also helps you make decisions whether to redirect user to the payment confirmation page (if the payment succeeded) or to do something else if anything went wrong.
 
 > Make sure the values of **clientTokenURL** and **createPurchaseURL** are enclosed in single quotes
 
