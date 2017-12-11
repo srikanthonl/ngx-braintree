@@ -1,6 +1,6 @@
 <h1>Integrating Braintree in Angular applications</h1>
 
-This module integrates the Braintree Dropin UI integration with your Angular application. The integration aims at componentizing the Braintree-Angular integration so that you can just use the component `<ngx-braintree></ngx-braintree>` anywhere in your application and you are good to go. 
+This module integrates the Braintree Dropin UI integration (v3) with your Angular 4.x and 5.x applications. The integration aims at componentizing the Braintree-Angular integration so that you can just use the component `<ngx-braintree></ngx-braintree>` anywhere in your application and you are good to go. 
 
 ## Usage
 
@@ -68,8 +68,8 @@ This is YOUR server-side API POST method which is called when the user clicks Pa
             }
         }
 
-        [Route("api/braintree/createpurchase")]
-        public HttpResponseMessage Post(Nonce nonce)
+		[Route("api/braintree/createpurchase")]
+        public HttpResponseMessage Post([FromBody]Nonce nonce)
         {
             var gateway = new BraintreeGateway
             {
