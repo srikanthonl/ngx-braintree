@@ -4,13 +4,32 @@ declare var braintree: any;
 
 @Component({
   selector: 'ngx-braintree',
-  template: `<div *ngIf="showDropinUI && clientToken" ngxBraintreeDirective>
-    <div id="dropin-container"></div>
-    <button (click)="pay()" *ngIf="clientToken">{{buttonText}}</button>
-  </div>`,
-  styles: [`button { background-color: #009CDE;
-    color: #f9f9f9; border: none; border-radius: 4px; height: 40px;
-    line-height: 40px; font-size: 16px; cursor: pointer; }`]
+  template: `
+    <div *ngIf="showDropinUI && clientToken" ngxBraintreeDirective>
+      <div id="dropin-container"></div>
+      <button (click)="pay()" *ngIf="clientToken">{{buttonText}}</button>
+    </div>
+    <div *ngIf="clientTokenNotReceived" class="error">
+      Error! Client token not received.
+    </div>`,
+  styles: [`
+    button { 
+      background-color: #009CDE;
+      color: #f9f9f9; 
+      border: none; 
+      border-radius: 4px; 
+      height: 40px;
+      line-height: 40px; 
+      font-size: 16px; 
+      cursor: pointer; }
+    .error{
+			color: #D8000C;
+      background-color: #FFBABA;
+      border: none; 
+      border-radius: 4px; 
+      height: 40px;
+      line-height: 40px;
+		}`]
 })
 export class NgxBraintreeComponent implements OnInit {
 
@@ -19,6 +38,7 @@ export class NgxBraintreeComponent implements OnInit {
   @Output() paymentStatus: EventEmitter<any> = new EventEmitter<any>();
   clientToken: string;
   showDropinUI = true;
+  clientTokenNotReceived = false;
   interval: any;
   instance: any;
 
@@ -32,10 +52,11 @@ export class NgxBraintreeComponent implements OnInit {
       .getClientToken(this.clientTokenURL)
       .subscribe((clientToken: string) => {
         this.clientToken = clientToken;
+        this.clientTokenNotReceived = false;
         this.interval = setInterval(() => { this.createDropin(); }, 0);
       }, (error) => {
-        console.log(`Please make sure your braintree server api is configured properly
-               running and accessible.`);
+        this.clientTokenNotReceived = true;
+        console.log(`Client token not received. Please make sure your braintree server api is configured properly, running and accessible.`);
       });
   }
 
