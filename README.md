@@ -56,7 +56,7 @@ This is YOUR server-side API GET method which calls Braintree and gets the clien
 **createPurchaseURL** – is **YOUR** server-side API POST URL.
 This is YOUR server-side API POST method which is called when the user clicks Pay. `ngx-braintree` will post the payment method nonce to the URL you provide through which you process the payment from your server and return the response. A sample server API POST method is as shown below (.NET Code). 
 
-    Note: It is important to set your POST method's parameter as `Nonce nonce` as shown below.
+**Note: It is important to set your POST method's parameter as `Nonce nonce` as shown below.**
 
         public class Nonce
         {
