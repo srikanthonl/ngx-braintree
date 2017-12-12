@@ -7,7 +7,8 @@ declare var braintree: any;
   template: `
     <div *ngIf="showDropinUI && clientToken" ngxBraintreeDirective>
       <div id="dropin-container"></div>
-      <button (click)="pay()" *ngIf="clientToken">{{buttonText}}</button>
+      <button *ngIf="showPayButton" (click)="pay()">{{buttonText}}</button>
+      <button *ngIf="!showPayButton" (click)="confirmPay()">{{buttonText}}</button>
     </div>
     <div *ngIf="clientTokenNotReceived" class="error">
       Error! Client token not received.
@@ -37,13 +38,17 @@ export class NgxBraintreeComponent implements OnInit {
   @Input() createPurchaseURL: string;
   @Output() paymentStatus: EventEmitter<any> = new EventEmitter<any>();
   clientToken: string;
+  nonce: string;
   showDropinUI = true;
-  clientTokenNotReceived = false;
+
+  showPayButton = false; // to display the pay button only after the dropin UI has rendered (well, almost)
+  clientTokenNotReceived = false; // to show the error, "Error! Client token not received."
   interval: any;
   instance: any;
 
   // Optional inputs
-  @Input() buttonText = 'Buy';
+  @Input() buttonText = 'Buy'; // to configure the pay button text
+  @Input() processImmediately = true;  
 
   constructor(private service: NgxBraintreeService) { }
 
@@ -69,20 +74,34 @@ export class NgxBraintreeComponent implements OnInit {
         this.instance = instance;
       });
       clearInterval(this.interval);
+      this.showPayButton = true;
     }
   }
 
   pay(): void {
+    console.log('in pay');
     if (this.instance) {
       this.instance.requestPaymentMethod((err, payload) => {
-        this.showDropinUI = false;
-        this.service
-          .createPurchase(this.createPurchaseURL, payload.nonce)
-          .subscribe((status: any) => {
-            this.paymentStatus.emit(status);
-          });
+        this.nonce = payload.nonce;        
+        if (this.processImmediately) {
+          this.showDropinUI = false;
+          this.confirmPay();
+        }
+        else {
+          this.showPayButton = false;
+        }
       });
     }
+  }
+
+  confirmPay(): void {
+    console.log('in confirm pay');
+    this.showDropinUI = false;
+    this.service
+      .createPurchase(this.createPurchaseURL, this.nonce)
+      .subscribe((status: any) => {
+        this.paymentStatus.emit(status);
+      });
   }
 
 }
