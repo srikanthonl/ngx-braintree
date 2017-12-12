@@ -8,7 +8,6 @@ declare var braintree: any;
     <div *ngIf="showDropinUI && clientToken" ngxBraintreeDirective>
       <div id="dropin-container"></div>
       <button *ngIf="showPayButton" (click)="pay()">{{buttonText}}</button>
-      <button *ngIf="!showPayButton" (click)="confirmPay()">{{buttonText}}</button>
     </div>
     <div *ngIf="clientTokenNotReceived" class="error">
       Error! Client token not received.
@@ -48,7 +47,7 @@ export class NgxBraintreeComponent implements OnInit {
 
   // Optional inputs
   @Input() buttonText = 'Buy'; // to configure the pay button text
-  @Input() processImmediately = true;  
+  @Input() allowChoose = false;
 
   constructor(private service: NgxBraintreeService) { }
 
@@ -82,13 +81,23 @@ export class NgxBraintreeComponent implements OnInit {
     console.log('in pay');
     if (this.instance) {
       this.instance.requestPaymentMethod((err, payload) => {
-        this.nonce = payload.nonce;        
-        if (this.processImmediately) {
+        if (!this.allowChoose) { // process immediately after tokenization
+          this.nonce = payload.nonce;
           this.showDropinUI = false;
           this.confirmPay();
         }
-        else {
-          this.showPayButton = false;
+        else { // dont process immediately. Give user a chance to change his payment details.
+          if (!this.nonce) { // previous nonce doesn't exist
+            this.nonce = payload.nonce;
+          }
+          else { // a nonce exists already
+            if (this.nonce === payload.nonce) { // go ahead with payment
+              this.confirmPay();
+            }
+            else {
+              this.nonce = payload.nonce;
+            }
+          }
         }
       });
     }
@@ -103,5 +112,4 @@ export class NgxBraintreeComponent implements OnInit {
         this.paymentStatus.emit(status);
       });
   }
-
 }
