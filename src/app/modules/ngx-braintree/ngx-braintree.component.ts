@@ -78,7 +78,6 @@ export class NgxBraintreeComponent implements OnInit {
   }
 
   pay(): void {
-    console.log('in pay');
     if (this.instance) {
       this.instance.requestPaymentMethod((err, payload) => {
         if (!this.allowChoose) { // process immediately after tokenization
@@ -104,7 +103,6 @@ export class NgxBraintreeComponent implements OnInit {
   }
 
   confirmPay(): void {
-    console.log('in confirm pay');
     this.showDropinUI = false;
     this.service
       .createPurchase(this.createPurchaseURL, this.nonce)

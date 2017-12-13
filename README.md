@@ -2,7 +2,7 @@
 
 This module integrates the Braintree Dropin UI integration (v3) with your Angular 4.x and 5.x applications. The integration aims at componentizing the Braintree-Angular integration so that you can just use the component `<ngx-braintree></ngx-braintree>` anywhere in your application and you are good to go. 
 
-![Demo](https://srikanth.onl/wp-content/uploads/2017/12/twostep.gif)
+![Demo](https://srikanth.onl/wp-content/uploads/2017/12/demo.gif)
 
 ## Usage
 
