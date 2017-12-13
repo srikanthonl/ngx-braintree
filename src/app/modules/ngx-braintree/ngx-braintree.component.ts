@@ -7,7 +7,7 @@ declare var braintree: any;
   template: `
     <div *ngIf="showDropinUI && clientToken" ngxBraintreeDirective>
       <div id="dropin-container"></div>
-      <button (click)="pay()" *ngIf="clientToken">{{buttonText}}</button>
+      <button *ngIf="showPayButton" (click)="pay()">{{buttonText}}</button>
     </div>
     <div *ngIf="clientTokenNotReceived" class="error">
       Error! Client token not received.
@@ -23,13 +23,13 @@ declare var braintree: any;
       font-size: 16px; 
       cursor: pointer; }
     .error{
-			color: #D8000C;
+      color: #D8000C;
       background-color: #FFBABA;
       border: none; 
       border-radius: 4px; 
       height: 40px;
       line-height: 40px;
-		}`]
+    }`]
 })
 export class NgxBraintreeComponent implements OnInit {
 
@@ -37,13 +37,17 @@ export class NgxBraintreeComponent implements OnInit {
   @Input() createPurchaseURL: string;
   @Output() paymentStatus: EventEmitter<any> = new EventEmitter<any>();
   clientToken: string;
+  nonce: string;
   showDropinUI = true;
-  clientTokenNotReceived = false;
+
+  showPayButton = false; // to display the pay button only after the dropin UI has rendered (well, almost)
+  clientTokenNotReceived = false; // to show the error, "Error! Client token not received."
   interval: any;
   instance: any;
 
   // Optional inputs
-  @Input() buttonText = 'Buy';
+  @Input() buttonText = 'Buy'; // to configure the pay button text
+  @Input() allowChoose = false;
 
   constructor(private service: NgxBraintreeService) { }
 
@@ -69,20 +73,41 @@ export class NgxBraintreeComponent implements OnInit {
         this.instance = instance;
       });
       clearInterval(this.interval);
+      this.showPayButton = true;
     }
   }
 
   pay(): void {
     if (this.instance) {
       this.instance.requestPaymentMethod((err, payload) => {
-        this.showDropinUI = false;
-        this.service
-          .createPurchase(this.createPurchaseURL, payload.nonce)
-          .subscribe((status: any) => {
-            this.paymentStatus.emit(status);
-          });
+        if (!this.allowChoose) { // process immediately after tokenization
+          this.nonce = payload.nonce;
+          this.showDropinUI = false;
+          this.confirmPay();
+        }
+        else { // dont process immediately. Give user a chance to change his payment details.
+          if (!this.nonce) { // previous nonce doesn't exist
+            this.nonce = payload.nonce;
+          }
+          else { // a nonce exists already
+            if (this.nonce === payload.nonce) { // go ahead with payment
+              this.confirmPay();
+            }
+            else {
+              this.nonce = payload.nonce;
+            }
+          }
+        }
       });
     }
   }
 
+  confirmPay(): void {
+    this.showDropinUI = false;
+    this.service
+      .createPurchase(this.createPurchaseURL, this.nonce)
+      .subscribe((status: any) => {
+        this.paymentStatus.emit(status);
+      });
+  }
 }

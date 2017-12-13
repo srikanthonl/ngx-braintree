@@ -1,6 +1,8 @@
 <h1>Integrating Braintree in Angular applications</h1>
 
-This module integrates the Braintree Dropin UI integration (v3) with your Angular 4.x and 5.x applications. The integration aims at componentizing the Braintree-Angular integration so that you can just use the component `<ngx-braintree></ngx-braintree>` anywhere in your application and you are good to go.
+This module integrates the Braintree Dropin UI integration (v3) with your Angular 4.x and 5.x applications. The integration aims at componentizing the Braintree-Angular integration so that you can just use the component `<ngx-braintree></ngx-braintree>` anywhere in your application and you are good to go. 
+
+![Demo](https://srikanth.onl/wp-content/uploads/2017/12/demo.gif)
 
 ## Usage
 
@@ -56,7 +58,7 @@ This is YOUR server-side API GET method which calls Braintree and gets the clien
 **createPurchaseURL** – is **YOUR** server-side API POST URL.
 This is YOUR server-side API POST method which is called when the user clicks Pay. `ngx-braintree` will post the payment method nonce to the URL you provide through which you process the payment from your server and return the response. A sample server API POST method is as shown below (.NET Code). 
 
-    Note: It is important to set your POST method's parameter as `Nonce nonce` as shown below.
+**Note: It is important to set your POST method's parameter as `Nonce nonce` as shown below.**
 
         public class Nonce
         {
@@ -68,7 +70,7 @@ This is YOUR server-side API POST method which is called when the user clicks Pa
             }
         }
 
-        [Route("api/braintree/createpurchase")]
+		[Route("api/braintree/createpurchase")]
         public HttpResponseMessage Post([FromBody]Nonce nonce)
         {
             var gateway = new BraintreeGateway
@@ -98,18 +100,36 @@ This is YOUR server-side API POST method which is called when the user clicks Pa
 
 > Make sure the values of **clientTokenURL** and **createPurchaseURL** are enclosed in single quotes
 
-<h1>Optional configuration for `ngx-braintree` component</h1>
+<h1>Optional configurations for `ngx-braintree` component</h1>
 
-The `ngx-braintree` component can be optionally configured by providing the text of the pay button. The default text on the button is Buy. If you want to have a custom text such as 'Pay' or 'Pay Now' instead of 'Buy', you can configure it. Pass the text you desire as the value of the input property as shown below:
+The `ngx-braintree` component can be optionally configured by providing the following inputs to the component.
 
-	<ngx-braintree 
-		[clientTokenURL]="'api/braintree/getclienttoken'" 
-		[createPurchaseURL]="'api/braintree/createpurchase'" 
-		(paymentStatus)="onPaymentStatus($event)"
-		[buttonText]="'Pay'">
-	</ngx-braintree>
+1. **[buttonText]**: This allows you to configure the text of the pay button. The default text on the button is Buy. If you want to have a custom text such as 'Pay' or 'Pay Now', you can configure it. Pass the text you desire as the value of the input property as shown below:
 
-> Make sure the value of **buttonText** is enclosed in single quotes.
+		<ngx-braintree 
+			[clientTokenURL]="'api/braintree/getclienttoken'" 
+			[createPurchaseURL]="'api/braintree/createpurchase'" 
+			(paymentStatus)="onPaymentStatus($event)"
+			[buttonText]="'Pay'">
+		</ngx-braintree>
+
+	> Make sure the value of **buttonText** is enclosed in single quotes.
+2. **[allowChoose]**: This provides you the ability to configure whether to let the user choose another way to pay after he has entered the payment details. Pass true or false as the value of the input property as shown below. The default will be false, if you don't specify this configuration.
+
+		<ngx-braintree 
+		    [clientTokenURL]="'api/braintree/getclienttoken'" 
+		    [createPurchaseURL]="'api/braintree/createpurchase'"
+		    (paymentStatus)="onPaymentStatus($event)"
+		    [buttonText]="'Pay'"
+		    [allowChoose]="true">
+		</ngx-braintree>
+		
+	This is a two step process that Braintree supports. You can configure ngx-braintree to make it work in the following way:
+
+	1. If **[allowChoose]** is set to true, as soon as the user enters payment details and clicks Pay, user will be shown another UI where he can opt to change his payment details by choosing another payment method or just click Pay again as shown below:
+	![Two step process](https://srikanth.onl/wp-content/uploads/2017/12/twostep.gif)
+	2. If **[allowChoose]** is set to false, it will only be a one step process and the user is not given any option to change his payment details and the payment process will continue as soon as he clicks Pay as shown below. This is the default setting of `ngx-braintree` component.
+	![One step process](https://srikanth.onl/wp-content/uploads/2017/12/onestep.gif)
 
 <h1>Braintree Server API</h1>
 

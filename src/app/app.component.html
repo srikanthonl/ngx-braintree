@@ -1,3 +1,5 @@
-<ngx-braintree [clientTokenURL]="'api/braintree/getclienttoken'" [createPurchaseURL]="'api/braintree/createpurchase'" (paymentStatus)="onPaymentStatus($event)"></ngx-braintree>
+<ngx-braintree [clientTokenURL]="'api/braintree/getclienttoken'" [createPurchaseURL]="'api/braintree/createpurchase'" (paymentStatus)="onPaymentStatus($event)"
+    [buttonText]="'Pay'" [allowChoose]="true">
+</ngx-braintree>
 
 <pre>{{ paymentResponse | json }}</pre>
