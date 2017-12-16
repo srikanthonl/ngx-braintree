@@ -13,20 +13,20 @@ declare var braintree: any;
       Error! Client token not received.
     </div>`,
   styles: [`
-    button { 
+    button {
       background-color: #009CDE;
-      color: #f9f9f9; 
-      border: none; 
-      border-radius: 4px; 
+      color: #f9f9f9;
+      border: none;
+      border-radius: 4px;
       height: 40px;
-      line-height: 40px; 
-      font-size: 16px; 
+      line-height: 40px;
+      font-size: 16px;
       cursor: pointer; }
     .error{
 			color: #D8000C;
       background-color: #FFBABA;
-      border: none; 
-      border-radius: 4px; 
+      border: none;
+      border-radius: 4px;
       height: 40px;
       line-height: 40px;
 		}`]
@@ -60,7 +60,8 @@ export class NgxBraintreeComponent implements OnInit {
         this.interval = setInterval(() => { this.createDropin(); }, 0);
       }, (error) => {
         this.clientTokenNotReceived = true;
-        console.log(`Client token not received. Please make sure your braintree server api is configured properly, running and accessible.`);
+        console.log(`Client token not received.
+          Please make sure your braintree server api is configured properly, running and accessible.`);
       });
   }
 
@@ -84,16 +85,13 @@ export class NgxBraintreeComponent implements OnInit {
           this.nonce = payload.nonce;
           this.showDropinUI = false;
           this.confirmPay();
-        }
-        else { // dont process immediately. Give user a chance to change his payment details.
+        } else { // dont process immediately. Give user a chance to change his payment details.
           if (!this.nonce) { // previous nonce doesn't exist
             this.nonce = payload.nonce;
-          }
-          else { // a nonce exists already
+          } else { // a nonce exists already
             if (this.nonce === payload.nonce) { // go ahead with payment
               this.confirmPay();
-            }
-            else {
+            } else {
               this.nonce = payload.nonce;
             }
           }
