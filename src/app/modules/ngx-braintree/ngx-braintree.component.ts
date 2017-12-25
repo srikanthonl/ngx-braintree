@@ -60,7 +60,7 @@ export class NgxBraintreeComponent implements OnInit {
         this.interval = setInterval(() => { this.createDropin(); }, 0);
       }, (error) => {
         this.clientTokenNotReceived = true;
-        console.log(`Client token not received.
+        console.error(`Client token not received.
           Please make sure your braintree server api is configured properly, running and accessible.`);
       });
   }
@@ -71,6 +71,10 @@ export class NgxBraintreeComponent implements OnInit {
         authorization: this.clientToken,
         container: '#dropin-container'
       }, (createErr, instance) => {
+        if (createErr) {
+          console.error(createErr);
+          return;
+        }
         this.instance = instance;
       });
       clearInterval(this.interval);
@@ -81,6 +85,10 @@ export class NgxBraintreeComponent implements OnInit {
   pay(): void {
     if (this.instance) {
       this.instance.requestPaymentMethod((err, payload) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
         if (!this.allowChoose) { // process immediately after tokenization
           this.nonce = payload.nonce;
           this.showDropinUI = false;
