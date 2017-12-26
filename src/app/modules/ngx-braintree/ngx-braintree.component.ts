@@ -60,6 +60,7 @@ export class NgxBraintreeComponent implements OnInit {
         this.interval = setInterval(() => { this.createDropin(); }, 0);
       }, (error) => {
         this.clientTokenNotReceived = true;
+        console.log(error);
         console.error(`Client token not received.
           Please make sure your braintree server api is configured properly, running and accessible.`);
       });
