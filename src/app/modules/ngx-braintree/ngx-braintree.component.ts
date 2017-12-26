@@ -48,6 +48,7 @@ export class NgxBraintreeComponent implements OnInit {
   // Optional inputs
   @Input() buttonText = 'Buy'; // to configure the pay button text
   @Input() allowChoose = false;
+  @Input() showCardholderName = false;
 
   constructor(private service: NgxBraintreeService) { }
 
@@ -66,11 +67,16 @@ export class NgxBraintreeComponent implements OnInit {
   }
 
   createDropin() {
+    var dropinConfig: any = {};
+
+    dropinConfig.authorization = this.clientToken;
+    dropinConfig.container = '#dropin-container';
+    dropinConfig.card = {
+      cardholderName: this.showCardholderName
+    }
+
     if (typeof braintree !== 'undefined') {
-      braintree.dropin.create({
-        authorization: this.clientToken,
-        container: '#dropin-container'
-      }, (createErr, instance) => {
+      braintree.dropin.create(dropinConfig, (createErr, instance) => {
         if (createErr) {
           console.error(createErr);
           return;
