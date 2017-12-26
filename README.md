@@ -36,8 +36,13 @@ Now that you have finished all the above steps, you are now ready to use the ngx
 		(paymentStatus)="onPaymentStatus($event)">
 	</ngx-braintree>
 	
-**clientTokenURL** – is **YOUR** server-side API GET URL. 
+**clientTokenURL** – is **YOUR** server-side API GET URL. **accepts: { responseType: 'text' }**
+
 This is YOUR server-side API GET method which calls Braintree and gets the clientToken for the Drop-in UI. A sample server API method that gives the clientToken is as shown below (.NET Code). `ngx-braintree` starts displaying the UI as soon as it receives the clientToken that your server provides. For more information read the Braintree Server API section below.
+
+<p style="color:red"> 
+<strong>NOTE:</strong> It is important that your server side get client token method returns the clientToken in the form of raw text as the below method does for ngx-braintree to successfully render its UI.
+</p>
 
 		[Route("api/braintree/getclienttoken")]
         public HttpResponseMessage GetClientToken()
@@ -45,13 +50,15 @@ This is YOUR server-side API GET method which calls Braintree and gets the clien
             var gateway = new BraintreeGateway
             {
                 Environment = Braintree.Environment.SANDBOX,
-                MerchantId = "your_braintree_merchant_id",
-                PublicKey = "your_braintree_public_key",
-                PrivateKey = "your_braintree_private_key"
+                MerchantId = "your-merchant_id",
+                PublicKey = "your_public_key",
+                PrivateKey = "your_private_key"
             };
 
             var clientToken = gateway.ClientToken.Generate();
-            HttpResponseMessage response = Request.CreateResponse(clientToken);
+            var response = new HttpResponseMessage(HttpStatusCode.OK);
+            response.Content = new StringContent(clientToken);
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/plain");
             return response;
         }
 
