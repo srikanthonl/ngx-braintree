@@ -40,9 +40,8 @@ Now that you have finished all the above steps, you are now ready to use the ngx
 
 This is YOUR server-side API GET method which calls Braintree and gets the clientToken for the Drop-in UI. A sample server API method that gives the clientToken is as shown below (.NET Code). `ngx-braintree` starts displaying the UI as soon as it receives the clientToken that your server provides. For more information read the Braintree Server API section below.
 
-<p style="color:red"> 
-<strong>NOTE:</strong> It is important that your server side get client token method returns the clientToken in the form of raw text as the below method does for ngx-braintree to successfully render its UI.
-</p>
+<strong>NOTE: It is important that your server side get client token method returns the clientToken in the form of raw text as the below sample method does for ngx-braintree to successfully render its UI.</strong>
+
 
 		[Route("api/braintree/getclienttoken")]
         public HttpResponseMessage GetClientToken()
@@ -50,9 +49,9 @@ This is YOUR server-side API GET method which calls Braintree and gets the clien
             var gateway = new BraintreeGateway
             {
                 Environment = Braintree.Environment.SANDBOX,
-                MerchantId = "your-merchant_id",
-                PublicKey = "your_public_key",
-                PrivateKey = "your_private_key"
+                MerchantId = "your_brainree_merchant_id",
+                PublicKey = "your_braintree_public_key",
+                PrivateKey = "your_braintree_private_key"
             };
 
             var clientToken = gateway.ClientToken.Generate();
@@ -135,6 +134,8 @@ The `ngx-braintree` component can be optionally configured by providing the foll
 
 	1. If **[allowChoose]** is set to true, as soon as the user enters payment details and clicks Pay, user will be shown another UI where he can opt to change his payment details by choosing another payment method or just click Pay again as shown below: <br />![Two step process](https://srikanth.onl/wp-content/uploads/2017/12/twostep.gif)	
 	2. If **[allowChoose]** is set to false, it will only be a one step process and the user is not given any option to change his payment details and the payment process will continue as soon as he clicks Pay as shown below. This is the default setting of `ngx-braintree` component. <br />![One step process](https://srikanth.onl/wp-content/uploads/2017/12/onestep.gif)
+	
+3. **[showCardholderName]**: allows you to configure whether or not to show the cardholder name field in the Dropin UI. The default value for this is false. If you want cardholder name to be shown, pass [showCardholderName]="true" to the ngx-braintree component.
 		
 <h1>Braintree Server API</h1>
 
@@ -149,3 +150,36 @@ Please report any issues/feature requests here: https://github.com/srikanthonl/n
 For more information please visit
 
 https://srikanth.onl/integrating-braintree-with-angular-applications/
+
+<h1>Change Log</h1>
+
+<h3>Version 2.3.0</h3>
+<ul>
+<li>
+You can now configure ngx-braintree to show/hide Cardholder name in the Dropin UI. Please refer the optional configuration section above for more info.
+</li>
+</ul>
+<h3>Version 2.2.2</h3>
+<ul>
+<li>
+Bug fixes
+</li>
+</ul>
+<h3>Version 2.2.1</h3>
+<ul>
+<li>
+Error handling at Dropin UI creation and payment processing stages added.
+</li>
+</ul>
+<h3>Version 2.2.0</h3>
+<ul>
+<li>
+Added two-step payment configuration process. You can now pass [allowChoose]="true" to use the two-step payment process. Please refer the optional configuration section above for more info.
+</li>
+<li>
+Pay button now displays after the DropUI is ready (well, almost)
+</li>
+<li>
+Error feedback added when client token is not received by ngx-braintree component.
+</li>
+</ul>
