@@ -23,13 +23,13 @@ declare var braintree: any;
       font-size: 16px;
       cursor: pointer; }
     .error{
-      color: #D8000C;
+			color: #D8000C;
       background-color: #FFBABA;
       border: none;
       border-radius: 4px;
       height: 40px;
       line-height: 40px;
-    }`]
+		}`]
 })
 export class NgxBraintreeComponent implements OnInit {
 
@@ -48,6 +48,7 @@ export class NgxBraintreeComponent implements OnInit {
   // Optional inputs
   @Input() buttonText = 'Buy'; // to configure the pay button text
   @Input() allowChoose = false;
+  @Input() showCardholderName = false;
 
   constructor(private service: NgxBraintreeService) { }
 
@@ -61,16 +62,26 @@ export class NgxBraintreeComponent implements OnInit {
       }, (error) => {
         this.clientTokenNotReceived = true;
         console.error(`Client token not received.
-        Please make sure your braintree server api is configured properly, running and accessible.`);
+          Please make sure your braintree server api is configured properly, running and accessible.`);
       });
   }
 
   createDropin() {
+    var dropinConfig: any = {};
+
+    dropinConfig.authorization = this.clientToken;
+    dropinConfig.container = '#dropin-container';
+    if (this.showCardholderName) {
+      dropinConfig.card = {
+        cardholderName: {
+          required: this.showCardholderName
+        }
+      }
+    }
+
+
     if (typeof braintree !== 'undefined') {
-      braintree.dropin.create({
-        authorization: this.clientToken,
-        container: '#dropin-container'
-      }, (createErr, instance) => {
+      braintree.dropin.create(dropinConfig, (createErr, instance) => {
         if (createErr) {
           console.error(createErr);
           return;
