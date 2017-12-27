@@ -94,7 +94,7 @@ export class NgxBraintreeComponent implements OnInit {
     if (this.instance) {
       this.instance.requestPaymentMethod((err, payload) => {
         if (err) {
-          console.log(err);
+          console.error(err);
           return;
         }
         if (!this.allowChoose) { // process immediately after tokenization
