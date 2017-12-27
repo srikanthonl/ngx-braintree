@@ -71,11 +71,14 @@ export class NgxBraintreeComponent implements OnInit {
 
     dropinConfig.authorization = this.clientToken;
     dropinConfig.container = '#dropin-container';
-    dropinConfig.card = {
-      cardholderName: {
-        required: true
+    if (this.showCardholderName) {
+      dropinConfig.card = {
+        cardholderName: {
+          required: this.showCardholderName
+        }
       }
     }
+
 
     if (typeof braintree !== 'undefined') {
       braintree.dropin.create(dropinConfig, (createErr, instance) => {

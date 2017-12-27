@@ -153,6 +153,12 @@ https://srikanth.onl/integrating-braintree-with-angular-applications/
 
 <h1>Change Log</h1>
 
+<h3>Version 2.3.1</h3>
+<ul>
+<li>
+Fixed an issue where the cardholder name was displayed even when not specified.
+</li>
+</ul>
 <h3>Version 2.3.0</h3>
 <ul>
 <li>
