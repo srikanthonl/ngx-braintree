@@ -12,9 +12,9 @@ export class NgxBraintreeService {
 
   getClientToken(clientTokenURL: string): Observable<string> {
     return this.http
-      .get(clientTokenURL, {responseType: 'text'})
+      .get(clientTokenURL, { responseType: 'json' })
       .map((response: any) => {
-        return response;
+        return response.token;
       })
       .catch((error) => {
         return Observable.throw(error);
@@ -22,9 +22,8 @@ export class NgxBraintreeService {
   }
 
   createPurchase(createPurchaseURL: string, nonce: string): Observable<any> {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http
-      .post(createPurchaseURL, { nonce: nonce }, { 'headers': headers })
+      .post(createPurchaseURL, { nonce: nonce })
       .map((response: any) => {
         return response;
       });
