@@ -12,9 +12,9 @@ export class NgxBraintreeService {
 
   getClientToken(clientTokenURL: string): Observable<string> {
     return this.http
-      .get(clientTokenURL, { responseType: 'text' })
+      .get(clientTokenURL, { responseType: 'json' })
       .map((response: any) => {
-        return response;
+        return response.token;
       })
       .catch((error) => {
         return Observable.throw(error);
