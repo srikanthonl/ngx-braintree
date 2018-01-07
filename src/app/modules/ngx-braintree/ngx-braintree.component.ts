@@ -9,8 +9,10 @@ declare var braintree: any;
       <div id="dropin-container"></div>
       <button *ngIf="showPayButton" (click)="pay()">{{buttonText}}</button>
     </div>
-    <div *ngIf="clientTokenNotReceived" class="error">
-      Error! Client token not received.
+    <div *ngIf="clientTokenNotReceived">
+      <div class="error">Error! Client token not received.</div>
+      Make sure your clientTokenURL's JSON response is as shown below:
+      <pre>{{ '{' }}"token":"braintree_client_token_generated_on_your_server"{{'}'}}</pre>
     </div>`,
   styles: [`
     button {
@@ -23,12 +25,13 @@ declare var braintree: any;
       font-size: 16px;
       cursor: pointer; }
     .error{
-			color: #D8000C;
-      background-color: #FFBABA;
+			color: #ffffff;
+      background-color: red;
+      font-weight: bolder;
       border: none;
       border-radius: 4px;
-      height: 40px;
-      line-height: 40px;
+      height: 30px;
+      line-height: 30px;
 		}`]
 })
 export class NgxBraintreeComponent implements OnInit {
@@ -56,9 +59,13 @@ export class NgxBraintreeComponent implements OnInit {
     this.service
       .getClientToken(this.clientTokenURL)
       .subscribe((clientToken: string) => {
-        this.clientToken = clientToken;
-        this.clientTokenNotReceived = false;
-        this.interval = setInterval(() => { this.createDropin(); }, 0);
+        if (!clientToken) {
+          this.clientTokenNotReceived = true;
+        } else {
+          this.clientToken = clientToken;
+          this.clientTokenNotReceived = false;
+          this.interval = setInterval(() => { this.createDropin(); }, 0);
+        }
       }, (error) => {
         this.clientTokenNotReceived = true;
         console.error(`Client token not received.
