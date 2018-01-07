@@ -8,11 +8,11 @@ This module integrates the Braintree Dropin UI integration (v3) with your Angula
 
 > Note: This is not an official Braintree Angular component.
 
-First, if your application is in Angular 5.x, install `ngx-braintree` by issuing the following command:
+First, if your application is in Angular 5.x, install ngx-braintree by issuing the following command:
 
 > npm install ngx-braintree --save
 
-If your application is an Angular 4.x application, install `ngx-braintree` by issuing the following command:
+If your application is an Angular 4.x application, install ngx-braintree by issuing the following command:
 
 > npm install ngx-braintree@a4
 
@@ -20,15 +20,17 @@ After the above step is done, import it into your module:
 
 > import { NgxBraintreeModule } from 'ngx-braintree';
 
-`ngx-braintree` uses `HttpClientModule`, so import that as well:
+ngx-braintree uses HttpClientModule, so import that as well (if you haven't already):
 
 > import { HttpClientModule } from '@angular/common/http';
 
-Now in the imports section of @NgModule add these two lines `NgxBraintreeModule` and `HttpClientModule` as shown below:
+Now in the imports section of @NgModule add these two lines NgxBraintreeModule and HttpClientModule as shown below:
 
 >  imports: [ NgxBraintreeModule, HttpClientModule ]
 
-Now that you have finished all the above steps, you are now ready to use the ngx-braintree component in your application. Where ever you want the Braintree Dropin UI in your application, you can use the `<ngx-braintree></ngx-braintree>`component as shown below:
+Now that you have finished all of the above steps, you are now ready to use the **ngx-braintree** component in your application. **Before you start using it, it is worth mentioning that, ngx-braintree maintains consistency by sending and receiving data to and from your API in JSON format. So it's important for your API to conform to how to send data to and receive data from ngx-braintree**
+
+OK, so lets use ngx-braintree. Where ever you want the Braintree Dropin UI in your application, you can use the `<ngx-braintree></ngx-braintree>`component as shown below:
 
 	<ngx-braintree 
 		[clientTokenURL]="'api/braintree/getclienttoken'" 
@@ -36,35 +38,49 @@ Now that you have finished all the above steps, you are now ready to use the ngx
 		(paymentStatus)="onPaymentStatus($event)">
 	</ngx-braintree>
 	
-**clientTokenURL** – is **YOUR** server-side API GET URL. **accepts: { responseType: 'text' }**
+**clientTokenURL** – is **YOUR** server-side API GET URL. `ngx-braintree` expects the response from this URL in the following JSON format
 
-This is YOUR server-side API GET method which calls Braintree and gets the clientToken for the Drop-in UI. A sample server API method that gives the clientToken is as shown below (.NET Code). `ngx-braintree` starts displaying the UI as soon as it receives the clientToken that your server provides. For more information read the Braintree Server API section below.
+	{ "token":"braintree_client_token_generated_on_your_server" }
 
-<strong>NOTE: It is important that your server side get client token method returns the clientToken in the form of raw text as the below sample method does for ngx-braintree to successfully render its UI.</strong>
+**It is important that your API method generates and sends the token in the above mentioned JSON format for ngx-braintree to render the drop-in UI successfully.** This is your server-side API GET method which calls Braintree and gets the clientToken for the Drop-in UI. **ngx-braintree** starts displaying the UI as soon as it receives the clientToken that your server provides.
+
+ A sample server API method that generates the clientToken **in the above said JSON format**, is as shown below (.NET Code). 
 
 
-		[Route("api/braintree/getclienttoken")]
+        public class ClientToken
+        {
+            public string token { get; set; }
+
+            public ClientToken(string token)
+            {
+                this.token = token;
+            }
+        }
+
+        [Route("api/braintree/getclienttoken")]
         public HttpResponseMessage GetClientToken()
         {
             var gateway = new BraintreeGateway
             {
                 Environment = Braintree.Environment.SANDBOX,
-                MerchantId = "your_brainree_merchant_id",
+                MerchantId = "your_braintree_merchant_id",
                 PublicKey = "your_braintree_public_key",
                 PrivateKey = "your_braintree_private_key"
             };
 
             var clientToken = gateway.ClientToken.Generate();
-            var response = new HttpResponseMessage(HttpStatusCode.OK);
-            response.Content = new StringContent(clientToken);
-            response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/plain");
-            return response;
+            ClientToken ct = new ClientToken(clientToken);
+            return Request.CreateResponse(HttpStatusCode.OK, ct, Configuration.Formatters.JsonFormatter);
         }
 
 **createPurchaseURL** – is **YOUR** server-side API POST URL.
-This is YOUR server-side API POST method which is called when the user clicks Pay. `ngx-braintree` will post the payment method nonce to the URL you provide through which you process the payment from your server and return the response. A sample server API POST method is as shown below (.NET Code). 
+This is YOUR server-side API POST method which is called when the user clicks Pay. **ngx-braintree** will post the payment method nonce to the URL you provide through which you process the payment from your server and return the response. **ngx-braintree** posts the nonce to the URL you provide, in the following format:
 
-**Note: It is important to set your POST method's parameter as `Nonce nonce` as shown below.**
+	{"nonce":"3252291f-b6fd-0f73-2a58-251a90d10221"}
+	
+**It is important for your POST API method to be able to receive and read the above response to successfully handle the purchase.**
+
+A sample server API POST method is as shown below (.NET Code). 
 
         public class Nonce
         {
@@ -76,7 +92,7 @@ This is YOUR server-side API POST method which is called when the user clicks Pa
             }
         }
 
-		[Route("api/braintree/createpurchase")]
+        [Route("api/braintree/createpurchase")]
         public HttpResponseMessage Post([FromBody]Nonce nonce)
         {
             var gateway = new BraintreeGateway
@@ -89,7 +105,7 @@ This is YOUR server-side API POST method which is called when the user clicks Pa
 
             var request = new TransactionRequest
             {
-                Amount = 1000.00M,
+                Amount = 899.00M,
                 PaymentMethodNonce = nonce.nonce,
                 Options = new TransactionOptionsRequest
                 {
@@ -133,13 +149,15 @@ The `ngx-braintree` component can be optionally configured by providing the foll
 	This is a two step process that Braintree supports. You can configure ngx-braintree to make it work in the following way:
 
 	1. If **[allowChoose]** is set to true, as soon as the user enters payment details and clicks Pay, user will be shown another UI where he can opt to change his payment details by choosing another payment method or just click Pay again as shown below: <br />![Two step process](https://srikanth.onl/wp-content/uploads/2017/12/twostep.gif)	
-	2. If **[allowChoose]** is set to false, it will only be a one step process and the user is not given any option to change his payment details and the payment process will continue as soon as he clicks Pay as shown below. This is the default setting of `ngx-braintree` component. <br />![One step process](https://srikanth.onl/wp-content/uploads/2017/12/onestep.gif)
+	2. If **[allowChoose]** is set to false, it will only be a one step process and the user is not given any option to change his payment details and the payment process will continue as soon as he clicks Pay as shown below. This is the default setting of **ngx-braintree** component. <br />![One step process](https://srikanth.onl/wp-content/uploads/2017/12/onestep.gif)
 	
 3. **[showCardholderName]**: allows you to configure whether or not to show the cardholder name field in the Dropin UI. The default value for this is false. If you want cardholder name to be shown, pass [showCardholderName]="true" to the ngx-braintree component.
 		
 <h1>Braintree Server API</h1>
 
-As mentioned above, along with the client side work (which `ngx-braintree` component fully takes care of), Braintree also requires us to write two server side API methods. To successfully use the `ngx-braintree` component, a simple API with two methods is required (.NET code for those two methods is shown above). One method's URL is the value for the **clientTokenURL** and other method's URL is the value for the **createPurchaseURL** properties of the `ngx-braintree` component. These API methods can be developed very easily on any server platform by visiting the following link https://developers.braintreepayments.com/start/hello-server/dotnet
+As mentioned above, along with the client side work (which `ngx-braintree` component fully takes care of), Braintree also requires us to write two server side API methods. To successfully use the **ngx-braintree** component, a simple API with two methods is required (.NET code for those two methods is shown above). One method's URL is the value for the **clientTokenURL** and other method's URL is the value for the **createPurchaseURL** properties of the `ngx-braintree` component. These API methods can be developed very easily on any server platform by visiting the following link https://developers.braintreepayments.com/start/hello-server/dotnet
+
+Note: Just make sure you are sending data to ngx-braintree and receiving data from ngx-braintree in the format discussed earlier in the Usage section.
 
 <h1>Issues</h1>
 
