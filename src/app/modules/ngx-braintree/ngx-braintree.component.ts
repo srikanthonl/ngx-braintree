@@ -38,6 +38,7 @@ export class NgxBraintreeComponent implements OnInit {
 
   @Input() clientTokenURL: string;
   @Input() createPurchaseURL: string;
+  @Input() chargeAmount: number;
   @Output() paymentStatus: EventEmitter<any> = new EventEmitter<any>();
   clientToken: string;
   nonce: string;
@@ -129,7 +130,7 @@ export class NgxBraintreeComponent implements OnInit {
   confirmPay(): void {
     this.showDropinUI = false;
     this.service
-      .createPurchase(this.createPurchaseURL, this.nonce)
+      .createPurchase(this.createPurchaseURL, this.nonce, this.chargeAmount)
       .subscribe((status: any) => {
         this.paymentStatus.emit(status);
       });
