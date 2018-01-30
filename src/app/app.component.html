@@ -3,7 +3,8 @@
     [createPurchaseURL]="'api/braintree/createpurchase'"
     (paymentStatus)="onPaymentStatus($event)"
     [buttonText]="'Pay'"
-    [showCardholderName]="true">
+    [showCardholderName]="true"
+    [chargeAmount]="44.44">
 </ngx-braintree>
 
 <pre>{{ paymentResponse | json }}</pre>
