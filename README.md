@@ -35,6 +35,7 @@ OK, so lets use ngx-braintree. Where ever you want the Braintree Dropin UI in yo
 	<ngx-braintree 
 		[clientTokenURL]="'api/braintree/getclienttoken'" 
 		[createPurchaseURL]="'api/braintree/createpurchase'" 
+		[chargeAmount]="55.55"
 		(paymentStatus)="onPaymentStatus($event)">
 	</ngx-braintree>
 	
@@ -117,6 +118,7 @@ A sample server API POST method is as shown below (.NET Code).
             HttpResponseMessage response = Request.CreateResponse(result);
             return response;
         }
+**chargeAmount** - is the amount to charge.
 
 **paymentStatus** - is the event that you should listen to. The `paymentStatus` event is emitted when a payment process finishes. The event emits the response that your purchase URL API method (createPurchaseURL) returns. Returning the same response, helps you in accessing the response object on the client side and also helps you make decisions whether to redirect user to the payment confirmation page (if the payment succeeded) or to do something else if anything went wrong.
 
@@ -170,6 +172,12 @@ For more information please visit
 https://srikanth.onl/integrating-braintree-with-angular-applications/
 
 <h1>Change Log</h1>
+<h3>Version 3.1.0</h3>
+<ul>
+<li>
+Ability tp provide the amount to be charged using the new input [chargeAmount] 
+</li>
+</ul>
 
 <h3>Version 2.3.1</h3>
 <ul>
