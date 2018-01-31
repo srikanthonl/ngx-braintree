@@ -5,6 +5,7 @@ declare var braintree: any;
 @Component({
   selector: 'ngx-braintree',
   template: `
+    <div class="error" *ngIf="errorMessage">Error! {{errorMessage}}</div>
     <div *ngIf="showDropinUI && clientToken" ngxBraintreeDirective>
       <div id="dropin-container"></div>
       <button *ngIf="showPayButton" (click)="pay()">{{buttonText}}</button>
@@ -43,6 +44,7 @@ export class NgxBraintreeComponent implements OnInit {
   clientToken: string;
   nonce: string;
   showDropinUI = true;
+  errorMessage: string;
 
   showPayButton = false; // to display the pay button only after the dropin UI has rendered (well, almost)
   clientTokenNotReceived = false; // to show the error, "Error! Client token not received."
@@ -57,6 +59,10 @@ export class NgxBraintreeComponent implements OnInit {
   constructor(private service: NgxBraintreeService) { }
 
   ngOnInit() {
+    this.generateDropInUI();
+  }
+
+  generateDropInUI() {
     this.service
       .getClientToken(this.clientTokenURL)
       .subscribe((clientToken: string) => {
@@ -70,7 +76,7 @@ export class NgxBraintreeComponent implements OnInit {
       }, (error) => {
         this.clientTokenNotReceived = true;
         console.error(`Client token not received.
-          Please make sure your braintree server api is configured properly, running and accessible.`);
+        Please make sure your braintree server api is configured properly, running and accessible.`);
       });
   }
 
@@ -86,7 +92,6 @@ export class NgxBraintreeComponent implements OnInit {
         }
       }
     }
-
 
     if (typeof braintree !== 'undefined') {
       braintree.dropin.create(dropinConfig, (createErr, instance) => {
@@ -132,6 +137,11 @@ export class NgxBraintreeComponent implements OnInit {
     this.service
       .createPurchase(this.createPurchaseURL, this.nonce, this.chargeAmount)
       .subscribe((status: any) => {
+        if (status.errors) {
+          this.errorMessage = status.message;
+          this.showDropinUI = true;
+          this.generateDropInUI();
+        }
         this.paymentStatus.emit(status);
       });
   }
