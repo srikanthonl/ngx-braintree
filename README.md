@@ -75,9 +75,9 @@ OK, so lets use ngx-braintree. Where ever you want the Braintree Dropin UI in yo
         }
 
 **createPurchaseURL** – is **YOUR** server-side API POST URL.
-This is YOUR server-side API POST method which is called when the user clicks Pay. **ngx-braintree** will post the payment method nonce to the URL you provide through which you process the payment from your server and return the response. **ngx-braintree** posts the nonce to the URL you provide, in the following format:
+This is YOUR server-side API POST method which is called when the user clicks Pay. **ngx-braintree** will post the payment method nonce to the URL you provide through which you process the payment from your server and return the response. **ngx-braintree** posts the nonce and the chargeAmount, to the URL you provide, in the following format:
 
-	{"nonce":"3252291f-b6fd-0f73-2a58-251a90d10221"}
+	{"nonce":"d7438dd5-7f14-0b2a-7a6f-f3c83d43b5b7","chargeAmount":55.55}
 	
 **It is important for your POST API method to be able to receive and read the above response to successfully handle the purchase.**
 
@@ -122,7 +122,7 @@ A sample server API POST method is as shown below (.NET Code).
         }
 **chargeAmount** - is the amount to charge.
 
-**paymentStatus** - is the event that you should listen to. The `paymentStatus` event is emitted when a payment process finishes. The event emits the response that your purchase URL API method (createPurchaseURL) returns. Returning the same response, helps you in accessing the response object on the client side and also helps you make decisions whether to redirect user to the payment confirmation page (if the payment succeeded) or to do something else if anything went wrong.
+**paymentStatus** - is the event that you should listen to. The `paymentStatus` event is emitted when a payment process finishes. The event emits the response that your purchase URL API method (createPurchaseURL) returns. **And your purchase url API method must return the same response that you have received from Braintree. This is because it makes some decisions based on the Braintree response. For ex: Automatically re-rendering the Dropin UI and also showing what went wrong, if your transaction is a failure.** Returning the same response, helps you in accessing the response object on the client side and also helps you make decisions whether to redirect user to the payment confirmation page (if the payment succeeded) or to do something else if anything went wrong.
 
 > Make sure the values of **clientTokenURL** and **createPurchaseURL** are enclosed in single quotes
 
@@ -174,6 +174,12 @@ For more information please visit
 https://srikanth.onl/integrating-braintree-with-angular-applications/
 
 <h1>Change Log</h1>
+<h3>Version 3.3.0</h3>
+<ul>
+<li>
+ngx-braintree now automatically re-renders the DropIn UI whenever a transaction fails and also shows the error message.
+</li>
+</ul>
 <h3>Version 3.2.0</h3>
 <ul>
 <li>
