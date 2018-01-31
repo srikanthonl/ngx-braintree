@@ -83,15 +83,17 @@ This is YOUR server-side API POST method which is called when the user clicks Pa
 
 A sample server API POST method is as shown below (.NET Code). 
 
-        public class Nonce
-        {
-            public string nonce;
-
-            public Nonce(string nonce)
-            {
-                this.nonce = nonce;
-            }
-        }
+    	public class Nonce
+    	{
+        	public string nonce { get; set; }
+        	public decimal chargeAmount { get; set; }
+			
+        	public Nonce(string nonce)
+        	{
+            	this.nonce = nonce;
+            	this.chargeAmount = chargeAmount;
+        	}
+    	}
 
         [Route("api/braintree/createpurchase")]
         public HttpResponseMessage Post([FromBody]Nonce nonce)
@@ -106,7 +108,7 @@ A sample server API POST method is as shown below (.NET Code).
 
             var request = new TransactionRequest
             {
-                Amount = 899.00M,
+                Amount = nonce.chargeAmount,
                 PaymentMethodNonce = nonce.nonce,
                 Options = new TransactionOptionsRequest
                 {
@@ -172,6 +174,13 @@ For more information please visit
 https://srikanth.onl/integrating-braintree-with-angular-applications/
 
 <h1>Change Log</h1>
+<h3>Version 3.2.0</h3>
+<ul>
+<li>
+Minor fixes
+</li>
+</ul>
+
 <h3>Version 3.1.0</h3>
 <ul>
 <li>
