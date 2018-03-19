@@ -55,11 +55,17 @@ export class NgxBraintreeComponent implements OnInit {
   @Input() buttonText = 'Buy'; // to configure the pay button text
   @Input() allowChoose = false;
   @Input() showCardholderName = false;
+  @Input() enablePaypalCheckout = false;
+  @Input() enablePaypalVault = false;
 
   constructor(private service: NgxBraintreeService) { }
 
   ngOnInit() {
-    this.generateDropInUI();
+    if(this.enablePaypalCheckout && this.enablePaypalVault) {
+      this.errorMessage = "Please make sure either Paypal Checkout or Paypal Vault is set to true. Both cannot be true at the same time.";
+    } else {
+      this.generateDropInUI();
+    }
   }
 
   generateDropInUI() {
@@ -82,7 +88,6 @@ export class NgxBraintreeComponent implements OnInit {
 
   createDropin() {
     var dropinConfig: any = {};
-
     dropinConfig.authorization = this.clientToken;
     dropinConfig.container = '#dropin-container';
     if (this.showCardholderName) {
@@ -90,6 +95,18 @@ export class NgxBraintreeComponent implements OnInit {
         cardholderName: {
           required: this.showCardholderName
         }
+      }
+    }
+    if (this.enablePaypalCheckout) {
+      dropinConfig.paypal = {
+        flow: 'checkout',
+        amount: this.chargeAmount,
+        currency: 'AUD'
+      }
+    }
+    if(this.enablePaypalVault) {
+      dropinConfig.paypal = {
+        flow: 'vault'
       }
     }
 
@@ -120,6 +137,9 @@ export class NgxBraintreeComponent implements OnInit {
         } else { // dont process immediately. Give user a chance to change his payment details.
           if (!this.nonce) { // previous nonce doesn't exist
             this.nonce = payload.nonce;
+            if(payload.details && payload.type === 'PayPalAccount') {
+              this.confirmPay();
+            }
           } else { // a nonce exists already
             if (this.nonce === payload.nonce) { // go ahead with payment
               this.confirmPay();
