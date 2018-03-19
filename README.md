@@ -163,6 +163,28 @@ As mentioned above, along with the client side work (which `ngx-braintree` compo
 
 Note: Just make sure you are sending data to ngx-braintree and receiving data from ngx-braintree in the format discussed earlier in the Usage section.
 
+4. **[enablePaypalCheckout]**: enables the Paypal checkout functionality.
+
+		<ngx-braintree 
+		    [clientTokenURL]="'api/braintree/getclienttoken'" 
+		    [createPurchaseURL]="'api/braintree/createpurchase'"
+		    (paymentStatus)="onPaymentStatus($event)"
+		    [buttonText]="'Pay'"
+		    [allowChoose]="true"
+            [enablePaypalCheckout] = "true">
+		</ngx-braintree>
+
+5. **[enablePaypalVault]**: enables the Paypal vault functionality.
+
+		<ngx-braintree 
+		    [clientTokenURL]="'api/braintree/getclienttoken'" 
+		    [createPurchaseURL]="'api/braintree/createpurchase'"
+		    (paymentStatus)="onPaymentStatus($event)"
+		    [buttonText]="'Pay'"
+		    [allowChoose]="true"
+            [enablePaypalVault] = "true">
+		</ngx-braintree>
+
 <h1>Issues</h1>
 
 Please report any issues/feature requests here: https://github.com/srikanthonl/ngx-braintree/issues
@@ -174,6 +196,12 @@ For more information please visit
 https://srikanth.onl/integrating-braintree-with-angular-applications/
 
 <h1>Change Log</h1>
+<h3>Version 3.4.0</h3>
+<ul>
+<li>
+ngx-braintree now supports Paypal Checkout and Paypal Vault. Check the optional configuration section of this document for more info.
+</li>
+</ul>
 <h3>Version 3.3.0</h3>
 <ul>
 <li>
