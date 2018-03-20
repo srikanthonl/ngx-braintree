@@ -157,7 +157,38 @@ The `ngx-braintree` component can be optionally configured by providing the foll
 	2. If **[allowChoose]** is set to false, it will only be a one step process and the user is not given any option to change his payment details and the payment process will continue as soon as he clicks Pay as shown below. This is the default setting of **ngx-braintree** component. <br />![One step process](https://srikanth.onl/wp-content/uploads/2017/12/onestep.gif)
 	
 3. **[showCardholderName]**: allows you to configure whether or not to show the cardholder name field in the Dropin UI. The default value for this is false. If you want cardholder name to be shown, pass [showCardholderName]="true" to the ngx-braintree component.
-		
+4. **[enablePaypalCheckout]**: enables the Paypal checkout functionality.
+
+		<ngx-braintree 
+			[clientTokenURL]="'api/braintree/getclienttoken'" 
+			[createPurchaseURL]="'api/braintree/createpurchase'"
+			(paymentStatus)="onPaymentStatus($event)"
+			[buttonText]="'Pay'"
+			[allowChoose]="true"
+			[enablePaypalCheckout] = "true">
+		</ngx-braintree>
+5. **[currency]**: **currency is mandatory when enablePaypalCheckout is set to true.**
+
+		<ngx-braintree 
+			[clientTokenURL]="'api/braintree/getclienttoken'" 
+			[createPurchaseURL]="'api/braintree/createpurchase'"
+			(paymentStatus)="onPaymentStatus($event)"
+			[buttonText]="'Pay'"
+			[allowChoose]="true"
+			[enablePaypalCheckout] = "true"
+			[currency]="'USD'">
+		</ngx-braintree>
+6. [enablePaypalVault]: enables the Paypal vault functionality.
+
+		<ngx-braintree 
+			[clientTokenURL]="'api/braintree/getclienttoken'" 
+			[createPurchaseURL]="'api/braintree/createpurchase'"
+			(paymentStatus)="onPaymentStatus($event)"
+			[buttonText]="'Pay'"
+			[allowChoose]="true"
+			[enablePaypalVault] = "true">
+		</ngx-braintree>
+
 <h1>Braintree Server API</h1>
 
 As mentioned above, along with the client side work (which `ngx-braintree` component fully takes care of), Braintree also requires us to write two server side API methods. To successfully use the **ngx-braintree** component, a simple API with two methods is required (.NET code for those two methods is shown above). One method's URL is the value for the **clientTokenURL** and other method's URL is the value for the **createPurchaseURL** properties of the `ngx-braintree` component. These API methods can be developed very easily on any server platform by visiting the following link https://developers.braintreepayments.com/start/hello-server/dotnet
@@ -176,45 +207,9 @@ https://srikanth.onl/integrating-braintree-with-angular-applications/
 
 <h1>Change Log</h1>
 
-<h3>Version 3.1.0</h3>
+<h3>Version 1.6.0</h3>
 <ul>
 <li>
-Ability to provide the amount to be charged using the new input [chargeAmount]
-</li>
-</ul>
-<h3>Version 2.3.1</h3>
-<ul>
-<li>
-Fixed an issue where the cardholder name was displayed even when not specified.
-</li>
-</ul>
-<h3>Version 2.3.0</h3>
-<ul>
-<li>
-You can now configure ngx-braintree to show/hide Cardholder name in the Dropin UI. Please refer the optional configuration section above for more info.
-</li>
-</ul>
-<h3>Version 2.2.2</h3>
-<ul>
-<li>
-Bug fixes
-</li>
-</ul>
-<h3>Version 2.2.1</h3>
-<ul>
-<li>
-Error handling at Dropin UI creation and payment processing stages added.
-</li>
-</ul>
-<h3>Version 2.2.0</h3>
-<ul>
-<li>
-Added two-step payment configuration process. You can now pass [allowChoose]="true" to use the two-step payment process. Please refer the optional configuration section above for more info.
-</li>
-<li>
-Pay button now displays after the DropUI is ready (well, almost)
-</li>
-<li>
-Error feedback added when client token is not received by ngx-braintree component.
+ngx-braintree now supports Paypal Checkout and Paypal Vault. Check the optional configuration section of this document for more info.
 </li>
 </ul>
