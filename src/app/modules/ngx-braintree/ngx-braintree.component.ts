@@ -57,13 +57,16 @@ export class NgxBraintreeComponent implements OnInit {
   @Input() showCardholderName = false;
   @Input() enablePaypalCheckout = false;
   @Input() enablePaypalVault = false;
+  @Input() currency: string;
 
   constructor(private service: NgxBraintreeService) { }
 
   ngOnInit() {
     if(this.enablePaypalCheckout && this.enablePaypalVault) {
       this.errorMessage = "Please make sure either Paypal Checkout or Paypal Vault is set to true. Both cannot be true at the same time.";
-    } else {
+    } else if (this.enablePaypalCheckout && !this.currency) { //user should provide currency for paypal checkout. Other types of checkout ex: credit card are driven by the currency configured in the merchant account
+      this.errorMessage = "Please provide currency for Paypal Checkout. ex: [currency]=\"'USD'\"";
+    }else {
       this.generateDropInUI();
     }
   }
@@ -101,7 +104,7 @@ export class NgxBraintreeComponent implements OnInit {
       dropinConfig.paypal = {
         flow: 'checkout',
         amount: this.chargeAmount,
-        currency: 'AUD'
+        currency: this.currency
       }
     }
     if(this.enablePaypalVault) {
