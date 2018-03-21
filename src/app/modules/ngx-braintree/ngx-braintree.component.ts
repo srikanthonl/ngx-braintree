@@ -50,6 +50,7 @@ export class NgxBraintreeComponent implements OnInit {
   clientTokenNotReceived = false; // to show the error, "Error! Client token not received."
   interval: any;
   instance: any;
+  dropinConfig: any = {};
 
   // Optional inputs
   @Input() buttonText = 'Buy'; // to configure the pay button text
@@ -62,11 +63,11 @@ export class NgxBraintreeComponent implements OnInit {
   constructor(private service: NgxBraintreeService) { }
 
   ngOnInit() {
-    if(this.enablePaypalCheckout && this.enablePaypalVault) {
+    if (this.enablePaypalCheckout && this.enablePaypalVault) {
       this.errorMessage = "Please make sure either Paypal Checkout or Paypal Vault is set to true. Both cannot be true at the same time.";
     } else if (this.enablePaypalCheckout && !this.currency) { //user should provide currency for paypal checkout. Other types of checkout ex: credit card are driven by the currency configured in the merchant account
       this.errorMessage = "Please provide currency for Paypal Checkout. ex: [currency]=\"'USD'\"";
-    }else {
+    } else {
       this.generateDropInUI();
     }
   }
@@ -90,33 +91,27 @@ export class NgxBraintreeComponent implements OnInit {
   }
 
   createDropin() {
-    var dropinConfig: any = {};
-    dropinConfig.authorization = this.clientToken;
-    dropinConfig.container = '#dropin-container';
+
+    this.dropinConfig.authorization = this.clientToken;
+    this.dropinConfig.container = '#dropin-container';
+
     if (this.showCardholderName) {
-      dropinConfig.card = {
-        cardholderName: {
-          required: this.showCardholderName
-        }
-      }
+      this.configureCardHolderName();
     }
+
     if (this.enablePaypalCheckout) {
-      dropinConfig.paypal = {
-        flow: 'checkout',
-        amount: this.chargeAmount,
-        currency: this.currency
-      }
+      this.configurePaypalCheckout();
     }
-    if(this.enablePaypalVault) {
-      dropinConfig.paypal = {
-        flow: 'vault'
-      }
+
+    if (this.enablePaypalVault) {
+      this.configurePaypalVault();
     }
 
     if (typeof braintree !== 'undefined') {
-      braintree.dropin.create(dropinConfig, (createErr, instance) => {
+      braintree.dropin.create(this.dropinConfig, (createErr, instance) => {
         if (createErr) {
           console.error(createErr);
+          this.errorMessage = createErr;
           return;
         }
         this.instance = instance;
@@ -126,11 +121,34 @@ export class NgxBraintreeComponent implements OnInit {
     }
   }
 
+  configureCardHolderName(): void {
+    this.dropinConfig.card = {
+      cardholderName: {
+        required: this.showCardholderName
+      }
+    }
+  }
+
+  configurePaypalCheckout() {
+    this.dropinConfig.paypal = {
+      flow: 'checkout',
+      amount: this.chargeAmount,
+      currency: this.currency
+    }
+  }
+
+  configurePaypalVault() {
+    this.dropinConfig.paypal = {
+      flow: 'vault'
+    }
+  }
+
   pay(): void {
     if (this.instance) {
       this.instance.requestPaymentMethod((err, payload) => {
         if (err) {
           console.error(err);
+          this.errorMessage = err;
           return;
         }
         if (!this.allowChoose) { // process immediately after tokenization
@@ -140,7 +158,7 @@ export class NgxBraintreeComponent implements OnInit {
         } else { // dont process immediately. Give user a chance to change his payment details.
           if (!this.nonce) { // previous nonce doesn't exist
             this.nonce = payload.nonce;
-            if(payload.details && payload.type === 'PayPalAccount') {
+            if (payload.details && payload.type === 'PayPalAccount') {
               this.confirmPay();
             }
           } else { // a nonce exists already
