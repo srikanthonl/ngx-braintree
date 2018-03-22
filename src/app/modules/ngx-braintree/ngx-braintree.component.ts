@@ -47,7 +47,7 @@ export class NgxBraintreeComponent implements OnInit {
   showDropinUI = true;
   errorMessage: string;
 
-  showPayButton = false; // to display the pay button only after the dropin UI has rendered (well, almost)
+  showPayButton = false; // to display the pay button only after the dropin UI has rendered.
   clientTokenNotReceived = false; // to show the error, "Error! Client token not received."
   interval: any;
   instance: any;
@@ -114,9 +114,9 @@ export class NgxBraintreeComponent implements OnInit {
           return;
         }
         this.instance = instance;
+        this.showPayButton = true;        
       });
       clearInterval(this.interval);
-      this.showPayButton = true;
     }
   }
 
@@ -127,6 +127,8 @@ export class NgxBraintreeComponent implements OnInit {
           console.error(err);
           this.errorMessage = err;
           return;
+        } else {
+          this.errorMessage = null;
         }
         if (!this.allowChoose) { // process immediately after tokenization
           this.nonce = payload.nonce;
