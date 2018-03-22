@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { NgxBraintreeService } from './ngx-braintree.service';
+import { ConfigureDropinService } from './configure-dropin.service';
 declare var braintree: any;
 
 @Component({
@@ -60,13 +61,15 @@ export class NgxBraintreeComponent implements OnInit {
   @Input() enablePaypalVault = false;
   @Input() currency: string;
 
-  constructor(private service: NgxBraintreeService) { }
+  constructor(
+    private service: NgxBraintreeService,
+    private configureDropinService: ConfigureDropinService) { }
 
   ngOnInit() {
     if (this.enablePaypalCheckout && this.enablePaypalVault) {
       this.errorMessage = "Please make sure either Paypal Checkout or Paypal Vault is set to true. Both cannot be true at the same time.";
-    } else if (this.enablePaypalCheckout && !this.currency) { //user should provide currency for paypal checkout. Other types of checkout ex: credit card are driven by the currency configured in the merchant account
-      this.errorMessage = "Please provide currency for Paypal Checkout. ex: [currency]=\"'USD'\"";
+    } else if (this.enablePaypalCheckout && !this.currency) { //user should provide currency for paypal checkout.
+      this.errorMessage = "Please provide the currency input for Paypal Checkout. ex: [currency]=\"'USD'\"";
     } else {
       this.generateDropInUI();
     }
@@ -91,23 +94,19 @@ export class NgxBraintreeComponent implements OnInit {
   }
 
   createDropin() {
-
-    this.dropinConfig.authorization = this.clientToken;
-    this.dropinConfig.container = '#dropin-container';
-
-    if (this.showCardholderName) {
-      this.configureCardHolderName();
-    }
-
-    if (this.enablePaypalCheckout) {
-      this.configurePaypalCheckout();
-    }
-
-    if (this.enablePaypalVault) {
-      this.configurePaypalVault();
-    }
-
     if (typeof braintree !== 'undefined') {
+      this.dropinConfig.authorization = this.clientToken;
+      this.dropinConfig.container = '#dropin-container';
+      if (this.showCardholderName) {
+        this.configureDropinService.configureCardHolderName(this.dropinConfig);
+      }
+      if (this.enablePaypalCheckout) {
+        this.configureDropinService.configurePaypalCheckout(this.dropinConfig, this.chargeAmount, this.currency);
+      }
+      if (this.enablePaypalVault) {
+        this.configureDropinService.configurePaypalVault(this.dropinConfig);
+      }
+
       braintree.dropin.create(this.dropinConfig, (createErr, instance) => {
         if (createErr) {
           console.error(createErr);
@@ -118,28 +117,6 @@ export class NgxBraintreeComponent implements OnInit {
       });
       clearInterval(this.interval);
       this.showPayButton = true;
-    }
-  }
-
-  configureCardHolderName(): void {
-    this.dropinConfig.card = {
-      cardholderName: {
-        required: this.showCardholderName
-      }
-    }
-  }
-
-  configurePaypalCheckout() {
-    this.dropinConfig.paypal = {
-      flow: 'checkout',
-      amount: this.chargeAmount,
-      currency: this.currency
-    }
-  }
-
-  configurePaypalVault() {
-    this.dropinConfig.paypal = {
-      flow: 'vault'
     }
   }
 
