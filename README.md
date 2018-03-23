@@ -178,7 +178,7 @@ The `ngx-braintree` component can be optionally configured by providing the foll
 			[enablePaypalCheckout] = "true"
 			[currency]="'USD'">
 		</ngx-braintree>
-6. [enablePaypalVault]: enables the Paypal vault functionality.
+6. **[enablePaypalVault]**: enables the Paypal vault functionality.
 
 		<ngx-braintree 
 			[clientTokenURL]="'api/braintree/getclienttoken'" 
@@ -187,6 +187,15 @@ The `ngx-braintree` component can be optionally configured by providing the foll
 			[buttonText]="'Pay'"
 			[allowChoose]="true"
 			[enablePaypalVault] = "true">
+		</ngx-braintree>
+7. **[locale]**: locale support
+
+		<ngx-braintree 
+			[clientTokenURL]="'api/braintree/getclienttoken'" 
+			[createPurchaseURL]="'api/braintree/createpurchase'" 
+			[chargeAmount]="55.55"
+			(paymentStatus)="onPaymentStatus($event)"
+			[locale]="'en_AU'">
 		</ngx-braintree>
 
 <h1>Braintree Server API</h1>
@@ -207,6 +216,13 @@ https://srikanth.onl/integrating-braintree-with-angular-applications/
 
 <h1>Change Log</h1>
 
+<h3>Version 1.7.0</h3>
+<ul>
+<li>Locale support.</li>
+<li>Enables/Disables Pay button when the Dropin UI goes Valid/Invalid.</li>
+<li>Fixed an issue where it was required to click the pay button twice when paying through PayPal checkout.</li>
+<li>Other enhancements</li>
+</ul>
 <h3>Version 1.6.0</h3>
 <ul>
 <li>
