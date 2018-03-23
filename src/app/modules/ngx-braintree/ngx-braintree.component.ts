@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { NgxBraintreeService } from './ngx-braintree.service';
 import { ConfigureDropinService } from './configure-dropin.service';
 declare var braintree: any;
@@ -82,7 +82,8 @@ export class NgxBraintreeComponent implements OnInit {
 
   constructor(
     private service: NgxBraintreeService,
-    private configureDropinService: ConfigureDropinService) { }
+    private configureDropinService: ConfigureDropinService,
+    private changeDetectorRef: ChangeDetectorRef) { }
 
   ngOnInit() {
     if (this.enablePaypalCheckout && this.enablePaypalVault) {
@@ -143,9 +144,11 @@ export class NgxBraintreeComponent implements OnInit {
         }
         this.instance.on('paymentMethodRequestable', (event) => {
           this.enablePayButton = true;
+          this,this.changeDetectorRef.detectChanges();
         });
         this.instance.on('noPaymentMethodRequestable', (event) => {
           this.enablePayButton = false;
+          this,this.changeDetectorRef.detectChanges();
         });
       });
       clearInterval(this.interval);

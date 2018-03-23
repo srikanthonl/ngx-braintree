@@ -7,10 +7,8 @@ Amount to charge: {{ chargeAmount | currency }}
     (paymentStatus) = "onPaymentStatus($event)" 
     [buttonText] = "'Purchase'" 
     [allowChoose] = "true" 
-    [showCardholderName] = "true" 
-    [enablePaypalCheckout] = "true"
-    [currency]="'USD'"
-    [locale]="'de_DE'">
+    [showCardholderName] = "true"
+    [locale]="'en_AU'">
 </ngx-braintree>
 
 <pre>{{ paymentResponse | json }}</pre>
