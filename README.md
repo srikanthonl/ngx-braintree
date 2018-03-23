@@ -214,6 +214,11 @@ For more information please visit
 https://srikanth.onl/integrating-braintree-with-angular-applications/
 
 <h1>Change Log</h1>
+<h3>Version 3.5.1</h3>
+<ul>
+<li>Fixed an issue where Pay button was disabled even when Dropin was valid.</li>
+</ul>
+
 <h3>Version 3.5.0</h3>
 <ul>
 <li>Locale support.</li>
