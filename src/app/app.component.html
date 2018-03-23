@@ -5,11 +5,12 @@ Amount to charge: {{ chargeAmount | currency }}
     [createPurchaseURL] = "'api/braintree/createpurchase'" 
     [chargeAmount] = "chargeAmount"
     (paymentStatus) = "onPaymentStatus($event)" 
-    [buttonText] = "'Pay'" 
+    [buttonText] = "'Purchase'" 
     [allowChoose] = "true" 
     [showCardholderName] = "true" 
     [enablePaypalCheckout] = "true"
-    [currency]="'USD'">
+    [currency]="'USD'"
+    [locale]="'de_DE'">
 </ngx-braintree>
 
 <pre>{{ paymentResponse | json }}</pre>

@@ -27,4 +27,8 @@ export class ConfigureDropinService {
     }
   }
 
+  configureLocale(dropinConfig, locale) {
+    dropinConfig.locale = locale;
+  }
+
 }
