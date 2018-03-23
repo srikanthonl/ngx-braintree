@@ -6,36 +6,54 @@ declare var braintree: any;
 @Component({
   selector: 'ngx-braintree',
   template: `
-    <div class="error" *ngIf="errorMessage">Error! {{errorMessage}}</div>
+    <div class="error" *ngIf="errorMessage">Error</div>
+    <div class="errorInfoDiv" *ngIf="errorMessage">{{errorMessage}}</div>
     <div *ngIf="showDropinUI && clientToken" ngxBraintreeDirective>
       <div id="dropin-container"></div>
-      <button *ngIf="showPayButton" (click)="pay()">{{buttonText}}</button>
+      <button [disabled] = "!enablePayButton" class=" {{ enablePayButton ? 'btn' : 'btn-disabled' }} " *ngIf="showPayButton" (click)="pay()">{{buttonText}}</button>
     </div>
     <div *ngIf="clientTokenNotReceived">
       <div class="error">Error! Client token not received.</div>
-      Make sure your clientTokenURL's JSON response is as shown below:
-      <pre>{{ '{' }}"token":"braintree_client_token_generated_on_your_server"{{'}'}}</pre>
+      <div class="errorInfoDiv">Make sure your clientTokenURL's JSON response is as shown below:
+      <pre>{{ '{' }}"token":"braintree_client_token_generated_on_your_server"{{'}'}}</pre></div>
     </div>`,
   styles: [`
-    button {
+    .btn {
       background-color: #009CDE;
-      color: #f9f9f9;
+      color: #ffffff;
       border: none;
       border-radius: 4px;
       height: 40px;
       line-height: 40px;
       font-size: 16px;
       cursor: pointer; }
-    .error{
+    .btn-disabled {
+      background-color: lightblue;
+      color: #ffffff;
+      border: none;
+      border-radius: 4px;
+      height: 40px;
+      line-height: 40px;
+      font-size: 16px;
+      cursor: not-allowed; }  
+    .error {
 			color: #ffffff;
       background-color: red;
       font-weight: bolder;
+      font-family: monospace;
       border: none;
       border-radius: 4px;
       height: 30px;
       line-height: 30px;
-		}`]
+    }
+    .errorInfoDiv {
+      border-bottom: 2px solid red;
+      border-left: 2px solid red;
+      border-right: 2px solid red;
+      font-family: monospace;
+    }`]
 })
+
 export class NgxBraintreeComponent implements OnInit {
 
   @Input() clientTokenURL: string;
@@ -52,6 +70,7 @@ export class NgxBraintreeComponent implements OnInit {
   interval: any;
   instance: any;
   dropinConfig: any = {};
+  enablePayButton = false;
 
   // Optional inputs
   @Input() buttonText = 'Buy'; // to configure the pay button text
@@ -60,6 +79,7 @@ export class NgxBraintreeComponent implements OnInit {
   @Input() enablePaypalCheckout = false;
   @Input() enablePaypalVault = false;
   @Input() currency: string;
+  @Input() locale: string;
 
   constructor(
     private service: NgxBraintreeService,
@@ -69,7 +89,7 @@ export class NgxBraintreeComponent implements OnInit {
     if (this.enablePaypalCheckout && this.enablePaypalVault) {
       this.errorMessage = "Please make sure either Paypal Checkout or Paypal Vault is set to true. Both cannot be true at the same time.";
     } else if (this.enablePaypalCheckout && !this.currency) { //user should provide currency for paypal checkout.
-      this.errorMessage = "Please provide the currency input for Paypal Checkout. ex: [currency]=\"'USD'\"";
+      this.errorMessage = "Please provide the currency for Paypal Checkout. ex: [currency]=\"'USD'\"";
     } else {
       this.generateDropInUI();
     }
@@ -97,6 +117,7 @@ export class NgxBraintreeComponent implements OnInit {
     if (typeof braintree !== 'undefined') {
       this.dropinConfig.authorization = this.clientToken;
       this.dropinConfig.container = '#dropin-container';
+
       if (this.showCardholderName) {
         this.configureDropinService.configureCardHolderName(this.dropinConfig);
       }
@@ -106,6 +127,9 @@ export class NgxBraintreeComponent implements OnInit {
       if (this.enablePaypalVault) {
         this.configureDropinService.configurePaypalVault(this.dropinConfig);
       }
+      if (this.locale) {
+        this.configureDropinService.configureLocale(this.dropinConfig, this.locale);
+      }
 
       braintree.dropin.create(this.dropinConfig, (createErr, instance) => {
         if (createErr) {
@@ -113,8 +137,17 @@ export class NgxBraintreeComponent implements OnInit {
           this.errorMessage = createErr;
           return;
         }
+        this.showPayButton = true;
         this.instance = instance;
-        this.showPayButton = true;        
+        if (this.instance.isPaymentMethodRequestable()) {
+          this.enablePayButton = true;
+        }
+        this.instance.on('paymentMethodRequestable', (event) => {
+          this.enablePayButton = true;
+        });
+        this.instance.on('noPaymentMethodRequestable', (event) => {
+          this.enablePayButton = false;
+        });
       });
       clearInterval(this.interval);
     }
@@ -134,19 +167,10 @@ export class NgxBraintreeComponent implements OnInit {
           this.nonce = payload.nonce;
           this.showDropinUI = false;
           this.confirmPay();
-        } else { // dont process immediately. Give user a chance to change his payment details.
-          if (!this.nonce) { // previous nonce doesn't exist
-            this.nonce = payload.nonce;
-            if (payload.details && payload.type === 'PayPalAccount') {
-              this.confirmPay();
-            }
-          } else { // a nonce exists already
-            if (this.nonce === payload.nonce) { // go ahead with payment
-              this.confirmPay();
-            } else {
-              this.nonce = payload.nonce;
-            }
-          }
+        } else if (this.instance.isPaymentMethodRequestable()) {
+          this.nonce = payload.nonce;
+          this.showDropinUI = false;
+          this.confirmPay();
         }
       });
     }
