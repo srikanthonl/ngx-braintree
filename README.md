@@ -137,6 +137,7 @@ The `ngx-braintree` component can be optionally configured by providing the foll
     <ngx-braintree 
       [clientTokenURL]="'api/braintree/getclienttoken'" 
       [createPurchaseURL]="'api/braintree/createpurchase'" 
+      [chargeAmount]="55.55"
       (paymentStatus)="onPaymentStatus($event)"
       [buttonText]="'Pay'">
     </ngx-braintree>
@@ -148,7 +149,8 @@ The `ngx-braintree` component can be optionally configured by providing the foll
       [clientTokenURL]="'api/braintree/getclienttoken'" 
       [createPurchaseURL]="'api/braintree/createpurchase'"
       (paymentStatus)="onPaymentStatus($event)"
-      [buttonText]="'Pay'"
+      [chargeAmount]="55.55"
+      ...
       [allowChoose]="true">
     </ngx-braintree>
     ```
@@ -158,14 +160,25 @@ The `ngx-braintree` component can be optionally configured by providing the foll
 	2. If **[allowChoose]** is set to false, it will only be a one step process and the user is not given any option to change his payment details and the payment process will continue as soon as he clicks Pay as shown below. This is the default setting of **ngx-braintree** component. <br />![One step process](https://srikanth.onl/wp-content/uploads/2017/12/onestep.gif)
 	
 3. **[showCardholderName]**: allows you to configure whether or not to show the cardholder name field in the Dropin UI. The default value for this is false. If you want cardholder name to be shown, pass [showCardholderName]="true" to the ngx-braintree component.
+	```html
+    <ngx-braintree 
+      [clientTokenURL]="'api/braintree/getclienttoken'" 
+      [createPurchaseURL]="'api/braintree/createpurchase'"
+      (paymentStatus)="onPaymentStatus($event)"
+      [chargeAmount]="55.55"
+      ...
+      [showCardholderName]="true"
+      >
+    </ngx-braintree>
+    ```
 4. **[enablePaypalCheckout]**: enables the Paypal checkout functionality.
     ```html
     <ngx-braintree 
       [clientTokenURL]="'api/braintree/getclienttoken'" 
       [createPurchaseURL]="'api/braintree/createpurchase'"
       (paymentStatus)="onPaymentStatus($event)"
-      [buttonText]="'Pay'"
-      [allowChoose]="true"
+      [chargeAmount]="55.55"
+      ...
       [enablePaypalCheckout] = "true">
     </ngx-braintree>
     ```
@@ -175,8 +188,8 @@ The `ngx-braintree` component can be optionally configured by providing the foll
       [clientTokenURL]="'api/braintree/getclienttoken'" 
       [createPurchaseURL]="'api/braintree/createpurchase'"
       (paymentStatus)="onPaymentStatus($event)"
-      [buttonText]="'Pay'"
-      [allowChoose]="true"
+      [chargeAmount]="55.55"
+      ...
       [enablePaypalCheckout] = "true"
       [currency]="'USD'">
     </ngx-braintree>
@@ -187,8 +200,8 @@ The `ngx-braintree` component can be optionally configured by providing the foll
       [clientTokenURL]="'api/braintree/getclienttoken'" 
       [createPurchaseURL]="'api/braintree/createpurchase'"
       (paymentStatus)="onPaymentStatus($event)"
-      [buttonText]="'Pay'"
-      [allowChoose]="true"
+      [chargeAmount]="55.55"
+      ...
       [enablePaypalVault] = "true">
     </ngx-braintree>
     ```
@@ -196,10 +209,11 @@ The `ngx-braintree` component can be optionally configured by providing the foll
 7. **[locale]**: locale support
     ```html
       <ngx-braintree 
-        [clientTokenURL]="'api/braintree/getclienttoken'" 
-        [createPurchaseURL]="'api/braintree/createpurchase'" 
-        [chargeAmount]="55.55"
-        (paymentStatus)="onPaymentStatus($event)"
+      	[clientTokenURL]="'api/braintree/getclienttoken'" 
+      	[createPurchaseURL]="'api/braintree/createpurchase'"
+      	(paymentStatus)="onPaymentStatus($event)"
+      	[chargeAmount]="55.55"
+      	...
         [locale]="'en_AU'">
       </ngx-braintree>
     ```
@@ -358,3 +372,4 @@ Pay button now displays after the DropUI is ready (well, almost)
 Error feedback added when client token is not received by ngx-braintree component.
 </li>
 </ul>
+
