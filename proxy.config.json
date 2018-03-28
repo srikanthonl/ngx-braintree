@@ -1,6 +1,6 @@
 {
     "/api/*":{
-        "target":"http://10.211.55.3/braintreeserverapi",
+        "target":"http://localhost/braintreeserverapi",
         "secure": false
     }
 }
