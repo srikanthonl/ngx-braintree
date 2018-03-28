@@ -1,6 +1,8 @@
 Amount to charge: {{ chargeAmount | currency }}
 <br>
-<ngx-braintree 
+
+<!-- When URLs are used -->
+<!-- <ngx-braintree 
     [clientTokenURL] = "'api/braintree/getclienttoken'" 
     [createPurchaseURL] = "'api/braintree/createpurchase'" 
     [chargeAmount] = "chargeAmount"
@@ -9,6 +11,30 @@ Amount to charge: {{ chargeAmount | currency }}
     [allowChoose] = "true" 
     [showCardholderName] = "true"
     [locale]="'en_AU'">
-</ngx-braintree>
+</ngx-braintree> -->
+
+<!-- When ES 5 functions are used -->
+<!-- <ngx-braintree 
+    [getClientToken] = "getClientToken.bind(this)" 
+    [createPurchase] = "createPurchase.bind(this)" 
+    [chargeAmount] = "chargeAmount"
+    (paymentStatus) = "onPaymentStatus($event)" 
+    [buttonText] = "'Purchase'" 
+    [allowChoose] = "true" 
+    [showCardholderName] = "true"
+    [locale]="'en_AU'">
+</ngx-braintree> -->
+
+<!-- When ES 2015 functions are used -->
+<!-- <ngx-braintree 
+    [getClientToken] = "getClientToken" 
+    [createPurchase] = "createPurchase" 
+    [chargeAmount] = "chargeAmount"
+    (paymentStatus) = "onPaymentStatus($event)" 
+    [buttonText] = "'Purchase'" 
+    [allowChoose] = "true" 
+    [showCardholderName] = "true"
+    [locale]="'en_AU'">
+</ngx-braintree> -->
 
 <pre>{{ paymentResponse | json }}</pre>
