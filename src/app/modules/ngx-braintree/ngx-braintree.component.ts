@@ -1,6 +1,6 @@
-import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {NgxBraintreeService} from './ngx-braintree.service';
-import {ConfigureDropinService} from './configure-dropin.service';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { NgxBraintreeService } from './ngx-braintree.service';
+import { ConfigureDropinService } from './configure-dropin.service';
 
 declare var braintree: any;
 
