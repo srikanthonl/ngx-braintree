@@ -13,7 +13,9 @@ Amount to charge: {{ chargeAmount | currency }}
     [locale]="'en_AU'">
 </ngx-braintree>
 
-<!-- When ES 5 functions are used -->
+<!-- Examples on how to pass custom functions instead of passing clientTokenURL and createPurchaseURL -->
+
+<!-- Example when ES 5 functions are used -->
 <!-- <ngx-braintree 
     [getClientToken] = "getClientToken.bind(this)" 
     [createPurchase] = "createPurchase.bind(this)" 
@@ -25,7 +27,7 @@ Amount to charge: {{ chargeAmount | currency }}
     [locale]="'en_AU'">
 </ngx-braintree> -->
 
-<!-- When ES 2015 functions are used -->
+<!-- Exmple when ES 2015 (ES 6) functions are used -->
 <!-- <ngx-braintree 
     [getClientToken] = "getClientToken" 
     [createPurchase] = "createPurchase" 
