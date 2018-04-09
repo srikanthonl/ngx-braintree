@@ -376,12 +376,12 @@ For more information please visit
 
 https://srikanth.onl/integrating-braintree-with-angular-applications/
 
+<h1>Change Log</h1>
 <h3>Version 3.6.0</h3>
 <ul>
 <li>ngx-braintree now supports passing your own functions into it for getting a client token and handling purchases.</li>
 </ul>
 
-<h1>Change Log</h1>
 <h3>Version 3.5.1</h3>
 <ul>
 <li>Fixed an issue where Pay button was disabled even when Dropin was valid.</li>
