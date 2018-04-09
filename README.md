@@ -226,9 +226,9 @@ The `ngx-braintree` component can be optionally configured by providing the foll
         ...>
       </ngx-braintree>
     ```
-
+    
 	The function passed to the getClientToken property must return an Observable such as an HTTP Request or a custom Observable.
-
+    
     ```ts
     export class MyComponent {
       ...
@@ -250,8 +250,53 @@ The `ngx-braintree` component can be optionally configured by providing the foll
       }
     }
     ```
+    
+   **Examples (ES 5 and ES 2015)**
+   
+   	**ES 5**
+    ```html
+    <ngx-braintree 
+    	[getClientToken] = "getClientToken.bind(this)" // if your getClientToken function is an ES 5 function. 
+        // If your function that you are passing is an ES 2015 function (fat arrow function) 
+        // then binding is not required.
+    	...>
+	</ngx-braintree>
+    
+    and an example of ES 5 function that is being passed in the code above:
+    
+      getClientToken(): Observable<string> {
+    	return this.http
+      	.get('api/braintree/getclienttoken', { responseType: 'json' })
+      	.map((response: any) => {
+	        return response.token;
+	      })
+	    .catch((error) => {
+        	return Observable.throw(error);
+      	});
+  	  }
+      ```
+    **ES 2015**
+    ```html
+    <ngx-braintree 
+    	[getClientToken] = "getClientToken" 
+        ...>
+	</ngx-braintree>
+    
+    and an example of ES 2015 function that is being passed in the code above:
+    
+      getClientToken = () => {
+    	return this.http
+      	.get('api/braintree/getclienttoken', { responseType: 'json' })
+      	.map((response: any) => {
+        	return response.token;
+      		})
+      	.catch((error) => {
+        	return Observable.throw(error);
+      	});
+  	  }
+    ```
 
-9. **[createPayment]**: Pass a function in to handle payment creation from a nonce
+9. **[createPurchase]**: Pass a function in to handle payment creation from a nonce
 
       ```html
         <ngx-braintree 
@@ -275,6 +320,45 @@ The `ngx-braintree` component can be optionally configured by providing the foll
       }
     }
     ```
+    
+    **Examples (ES 5 and ES 2015)**
+   
+   	**ES 5**
+    ```html
+    <ngx-braintree 
+    	[createPurchase] = "createPurchase.bind(this)"
+    	...>
+	</ngx-braintree>
+    
+    and an example of ES 5 function that is being passed in the code above:
+    
+      createPurchase(nonce: string, chargeAmount: number): Observable<any> {
+    	const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    	return this.http
+    	  .post('api/braintree/createpurchase', { nonce: nonce, chargeAmount: chargeAmount }, { 'headers': headers })
+      	  .map((response: any) => {
+       	    return response;
+      	 });
+  		}
+      ```
+    **ES 2015**
+    ```html
+    <ngx-braintree 
+    	[createPurchase] = "createPurchase" 
+        ...>
+	</ngx-braintree>
+    
+    and an example of ES 2015 function that is being passed in the code above:
+    
+  	createPurchase = (nonce: string, chargeAmount: number) => {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http
+      .post('api/braintree/createpurchase', { nonce: nonce, chargeAmount: chargeAmount }, { 'headers': headers })
+      .map((response: any) => {
+        return response;
+      });
+    }
+    ```
 
 <h1>Braintree Server API</h1>
 
@@ -293,6 +377,10 @@ For more information please visit
 https://srikanth.onl/integrating-braintree-with-angular-applications/
 
 <h1>Change Log</h1>
+<h3>Version 1.8.0</h3>
+<ul>
+<li>ngx-braintree now supports passing your own functions into it for getting a client token and handling purchases.</li>
+</ul>
 <h3>Version 1.7.1</h3>
 <ul>
 <li>Fixed an issue where Pay button was disabled even when Dropin was valid.</li>
