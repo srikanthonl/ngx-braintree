@@ -14,6 +14,28 @@ export class AppComponent {
   paymentResponse: any;
   chargeAmount = 55.55;
 
+  enabledStyle = {
+    'background-color': '#000000',
+    'color': '#ffffff',
+    'border': 'none',
+    'border-radius': '4px',
+    'height': '40px',
+    'line-height': '40px',
+    'font-size': '16px',
+    'cursor': 'pointer'
+  };
+
+  disabledStyle = {
+    'background-color': 'lightgray',
+    'color': '#ffffff',
+    'border': 'none',
+    'border-radius': '4px',
+    'height': '40px',
+    'line-height': '40px',
+    'font-size': '16px',
+    'cursor': 'not-allowed'
+  };
+
   constructor(private http: HttpClient) { }
 
   onPaymentStatus(response): void {
@@ -36,7 +58,7 @@ export class AppComponent {
   createPurchase(nonce: string, chargeAmount: number): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http
-    .post('api/braintree/createpurchase', { nonce: nonce, chargeAmount: chargeAmount }, { 'headers': headers })
+      .post('api/braintree/createpurchase', { nonce: nonce, chargeAmount: chargeAmount }, { 'headers': headers })
       .map((response: any) => {
         return response;
       });

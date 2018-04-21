@@ -11,9 +11,16 @@ declare var braintree: any;
     <div class="errorInfoDiv" *ngIf="errorMessage">{{errorMessage}}</div>
     <div *ngIf="showDropinUI && clientToken" ngxBraintreeDirective>
       <div id="dropin-container"></div>
-      <button [disabled]="!enablePayButton" class=" {{ enablePayButton ? 'btn' : 'btn-disabled' }} " *ngIf="showPayButton" (click)="pay()">
-        {{buttonText}}
-      </button>
+      <div *ngIf="!enabledStyle && !disabledStyle">
+        <button [disabled]="!enablePayButton" class=" {{ enablePayButton ? 'btn' : 'btn-disabled' }} " *ngIf="showPayButton" (click)="pay()">
+          {{buttonText}}
+        </button>
+      </div>
+      <div *ngIf="enabledStyle && disabledStyle">
+        <button [disabled]="!enablePayButton" [ngStyle]="enablePayButton ? enabledStyle : disabledStyle" *ngIf="showPayButton" (click)="pay()">
+          {{buttonText}}
+        </button>
+      </div>
     </div>
     <div *ngIf="clientTokenNotReceived">
       <div class="error">Error! Client token not received.</div>
@@ -77,6 +84,8 @@ export class NgxBraintreeComponent implements OnInit {
   @Input() enablePaypalVault = false;
   @Input() currency: string;
   @Input() locale: string;
+  @Input() enabledStyle: any;
+  @Input() disabledStyle: any;
 
   clientToken: string;
   nonce: string;
@@ -206,4 +215,3 @@ export class NgxBraintreeComponent implements OnInit {
       });
   }
 }
-
