@@ -10,7 +10,9 @@ Amount to charge: {{ chargeAmount | currency }}
     [buttonText] = "'Purchase'" 
     [allowChoose] = "true" 
     [showCardholderName] = "true"
-    [locale]="'en_AU'">
+    [locale]="'en_AU'"
+    [enabledStyle]="enabledStyle"
+    [disabledStyle]="disabledStyle">
 </ngx-braintree>
 
 <!-- Examples on how to pass custom functions instead of passing clientTokenURL and createPurchaseURL -->
