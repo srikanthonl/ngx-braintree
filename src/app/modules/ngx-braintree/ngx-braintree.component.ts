@@ -125,6 +125,7 @@ export class NgxBraintreeComponent implements OnInit {
       .subscribe((clientToken: string) => {
         if (!clientToken) {
           this.clientTokenNotReceived = true;
+          this.showLoader = false;
         } else {
           this.clientToken = clientToken;
           this.clientTokenNotReceived = false;
@@ -134,6 +135,7 @@ export class NgxBraintreeComponent implements OnInit {
         }
       }, (error) => {
         this.clientTokenNotReceived = true;
+        this.showLoader = false;
         console.error(`Client token not received.
         Please make sure your braintree server api is configured properly, running and accessible.`);
       });
@@ -161,11 +163,11 @@ export class NgxBraintreeComponent implements OnInit {
         if (createErr) {
           console.error(createErr);
           this.errorMessage = createErr;
-          this.showLoader = false;          
+          this.showLoader = false;
           return;
         }
         this.showPayButton = true;
-        this.showLoader = false;        
+        this.showLoader = false;
         this.instance = instance;
         if (this.instance.isPaymentMethodRequestable()) {
           this.enablePayButton = true;
@@ -196,12 +198,12 @@ export class NgxBraintreeComponent implements OnInit {
         if (!this.allowChoose) { // process immediately after tokenization
           this.nonce = payload.nonce;
           this.showDropinUI = false;
-          this.showLoader = true;                
+          this.showLoader = true;
           this.confirmPay();
         } else if (this.instance.isPaymentMethodRequestable()) {
           this.nonce = payload.nonce;
           this.showDropinUI = false;
-          this.showLoader = true;                
+          this.showLoader = true;
           this.confirmPay();
         }
       });
@@ -218,7 +220,7 @@ export class NgxBraintreeComponent implements OnInit {
           this.generateDropInUI();
         }
         this.paymentStatus.emit(status);
-        this.showLoader = false;        
+        this.showLoader = false;
       });
   }
 }
