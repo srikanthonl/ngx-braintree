@@ -128,7 +128,7 @@ A sample server API POST method is as shown below (.NET Code).
 
 > Make sure the values of **clientTokenURL** and **createPurchaseURL** are enclosed in single quotes
 
-<h1>Optional configurations for `ngx-braintree` component</h1>
+<h1>Optional configurations for ngx-braintree component</h1>
 
 The `ngx-braintree` component can be optionally configured by providing the following inputs to the component.
 
@@ -359,6 +359,39 @@ The `ngx-braintree` component can be optionally configured by providing the foll
       });
     }
     ```
+  10. **enabledStyle** and **disabledStyle**: Make the Purchase button's styles (when enabled and when disabled) consistent with your application's styles. Pass in enabled and disabled style objects as shown below:
+
+		```html
+		<ngx-braintree>
+    		...
+    		[enabledStyle]="enabledStyle"
+    		[disabledStyle]="disabledStyle"
+    	</ngx-braintree>
+        
+		and these are the examples of objects that are being sent in the above example.
+    
+        enabledStyle = {
+          'background-color': '#000000',
+          'color': '#ffffff',
+          'border': 'none',
+          'border-radius': '4px',
+          'height': '40px',
+          'line-height': '40px',
+          'font-size': '16px',
+          'cursor': 'pointer'
+   		 };
+
+        disabledStyle = {
+          'background-color': 'lightgray',
+          'color': '#ffffff',
+          'border': 'none',
+          'border-radius': '4px',
+          'height': '40px',
+          'line-height': '40px',
+          'font-size': '16px',
+          'cursor': 'not-allowed'
+        };
+
 
 <h1>Braintree Server API</h1>
 
@@ -377,6 +410,11 @@ For more information please visit
 https://srikanth.onl/integrating-braintree-with-angular-applications/
 
 <h1>Change Log</h1>
+<h3>Version 3.7.0</h3>
+<ul>
+<li>ngx-braintree now supports passing your own styles into it. </li>
+<li>ngx-braintree now provides better user experience by showing progress indicators whenever required. </li>
+</ul>
 <h3>Version 3.6.0</h3>
 <ul>
 <li>ngx-braintree now supports passing your own functions into it for getting a client token and handling purchases.</li>
