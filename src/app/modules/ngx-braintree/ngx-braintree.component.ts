@@ -125,6 +125,7 @@ export class NgxBraintreeComponent implements OnInit {
       .subscribe((clientToken: string) => {
         if (!clientToken) {
           this.clientTokenNotReceived = true;
+          this.showLoader = false;  
         } else {
           this.clientToken = clientToken;
           this.clientTokenNotReceived = false;
@@ -134,6 +135,7 @@ export class NgxBraintreeComponent implements OnInit {
         }
       }, (error) => {
         this.clientTokenNotReceived = true;
+        this.showLoader = false;  
         console.error(`Client token not received.
         Please make sure your braintree server api is configured properly, running and accessible.`);
       });
