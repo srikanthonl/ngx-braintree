@@ -7,6 +7,7 @@ declare var braintree: any;
 @Component({
   selector: 'ngx-braintree',
   template: `
+    <div *ngIf="showLoader" style="position:relative; left: 50%; top: '50%';"><img src="/assets/images/loader.gif" /></div>
     <div class="error" *ngIf="errorMessage">Error</div>
     <div class="errorInfoDiv" *ngIf="errorMessage">{{errorMessage}}</div>
     <div *ngIf="showDropinUI && clientToken" ngxBraintreeDirective>
@@ -98,6 +99,7 @@ export class NgxBraintreeComponent implements OnInit {
   instance: any;
   dropinConfig: any = {};
   enablePayButton = false;
+  showLoader = true;
 
   @Input() getClientToken: Function = () => this.service.getClientToken(this.clientTokenURL);
   @Input() createPurchase: Function = (nonce, chargeAmount) => this.service.createPurchase(this.createPurchaseURL, nonce, chargeAmount);
@@ -159,9 +161,11 @@ export class NgxBraintreeComponent implements OnInit {
         if (createErr) {
           console.error(createErr);
           this.errorMessage = createErr;
+          this.showLoader = false;          
           return;
         }
         this.showPayButton = true;
+        this.showLoader = false;        
         this.instance = instance;
         if (this.instance.isPaymentMethodRequestable()) {
           this.enablePayButton = true;
@@ -192,10 +196,12 @@ export class NgxBraintreeComponent implements OnInit {
         if (!this.allowChoose) { // process immediately after tokenization
           this.nonce = payload.nonce;
           this.showDropinUI = false;
+          this.showLoader = true;                
           this.confirmPay();
         } else if (this.instance.isPaymentMethodRequestable()) {
           this.nonce = payload.nonce;
           this.showDropinUI = false;
+          this.showLoader = true;                
           this.confirmPay();
         }
       });
@@ -212,6 +218,7 @@ export class NgxBraintreeComponent implements OnInit {
           this.generateDropInUI();
         }
         this.paymentStatus.emit(status);
+        this.showLoader = false;        
       });
   }
 }
