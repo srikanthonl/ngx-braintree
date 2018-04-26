@@ -7,7 +7,10 @@ declare var braintree: any;
 @Component({
   selector: 'ngx-braintree',
   template: `
-    <div *ngIf="showLoader" style="position:relative; left: 50%; top: '50%';"><img src="/assets/images/loader.gif" /></div>
+    <div *ngIf="showLoader" style="position:relative; left: 50%; top: '50%';">
+      <div #loaderRef><ng-content select="img"></ng-content></div>
+      <img *ngIf="loaderRef.children.length === 0" src="/assets/images/loader.gif" />
+    </div>
     <div class="error" *ngIf="errorMessage">Error</div>
     <div class="errorInfoDiv" *ngIf="errorMessage">{{errorMessage}}</div>
     <div *ngIf="showDropinUI && clientToken" ngxBraintreeDirective>
