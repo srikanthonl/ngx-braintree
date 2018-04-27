@@ -128,7 +128,7 @@ A sample server API POST method is as shown below (.NET Code).
 
 > Make sure the values of **clientTokenURL** and **createPurchaseURL** are enclosed in single quotes
 
-<h1>Optional configurations for `ngx-braintree` component</h1>
+<h1>Optional configurations for ngx-braintree component</h1>
 
 The `ngx-braintree` component can be optionally configured by providing the following inputs to the component.
 
@@ -156,7 +156,7 @@ The `ngx-braintree` component can be optionally configured by providing the foll
     ```
 	This is a two step process that Braintree supports. You can configure ngx-braintree to make it work in the following way:
 
-	1. If **[allowChoose]** is set to true, as soon as the user enters payment details and clicks Pay, user will be shown another UI where he can opt to change his payment details by choosing another payment method or just click Pay again as shown below: <br />![Two step process](https://srikanth.onl/wp-content/uploads/2017/12/twostep.gif)	
+	1. If **[allowChoose]** is set to true, as soon as the user enters payment details and clicks Pay, user will be shown another UI where he can opt to change his payment details by choosing another payment method or just click Pay again as shown below: <br />![Two step process](https://srikanth.onl/wp-content/uploads/2018/04/ngx-BTGifDemo2.gif)	
 	2. If **[allowChoose]** is set to false, it will only be a one step process and the user is not given any option to change his payment details and the payment process will continue as soon as he clicks Pay as shown below. This is the default setting of **ngx-braintree** component. <br />![One step process](https://srikanth.onl/wp-content/uploads/2017/12/onestep.gif)
 	
 3. **[showCardholderName]**: allows you to configure whether or not to show the cardholder name field in the Dropin UI. The default value for this is false. If you want cardholder name to be shown, pass [showCardholderName]="true" to the ngx-braintree component.
