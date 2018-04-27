@@ -5,15 +5,22 @@ import { NgxBraintreeService } from './ngx-braintree.service';
 import { ConfigureDropinService } from './configure-dropin.service';
 
 import { NgxBraintreeComponent } from './ngx-braintree.component';
+
+// Directives
 import { NgxBraintreeDirective } from './ngx-braintree.directive';
+import { NgxBraintreePayDirective } from './ngx-braintree-pay.directive';
 
 @NgModule({
   imports: [
     CommonModule
   ],
-  declarations: [NgxBraintreeComponent, NgxBraintreeDirective],
+  declarations: [
+    NgxBraintreeComponent,
+    NgxBraintreeDirective,
+    NgxBraintreePayDirective],
   exports: [
-    NgxBraintreeComponent
+    NgxBraintreeComponent,
+    NgxBraintreePayDirective
   ],
   providers: [
     { provide: NgxBraintreeService, useClass: NgxBraintreeService },
