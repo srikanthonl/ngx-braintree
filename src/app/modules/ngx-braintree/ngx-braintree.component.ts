@@ -7,7 +7,7 @@ declare var braintree: any;
 @Component({
   selector: 'ngx-braintree',
   template: `
-    <div *ngIf="showLoader" style="position:relative; left: 50%; top: '50%';">
+    <div *ngIf="showLoader" style="position:relative; text-align: center;">
       <div #loaderRef><ng-content select="img"></ng-content></div>
       <img *ngIf="loaderRef.children.length === 0" src="/assets/images/loader.gif" />
     </div>
