@@ -86,4 +86,8 @@ export class AppComponent {
       });
   }
 
+  navigateToPreviousPage() { 
+    console.log('navigate to your previous page here...');
+  }
+
 }

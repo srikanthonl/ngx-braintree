@@ -15,16 +15,30 @@ declare var braintree: any;
     <div class="errorInfoDiv" *ngIf="errorMessage">{{errorMessage}}</div>
     <div *ngIf="showDropinUI && clientToken" ngxBraintreeDirective>
       <div id="dropin-container"></div>
-      <div *ngIf="!enabledStyle && !disabledStyle">
-        <button [disabled]="!enablePayButton" class=" {{ enablePayButton ? 'btn' : 'btn-disabled' }} " *ngIf="showPayButton" (click)="pay()">
-          {{buttonText}}
-        </button>
+
+      <div #buttonsRef><ng-content></ng-content></div>
+
+      <!-- No buttons are projected and no styles sent, so the default button (Purchase) with default styles will be used. -->
+      <div *ngIf="(buttonsRef.children.length === 0 && !enabledStyle && !disabledStyle)">
+          <button [disabled]="!enablePayButton" *ngIf="showPayButton" (click)="pay()">
+            {{buttonText}}
+          </button>
       </div>
-      <div *ngIf="enabledStyle && disabledStyle">
-        <button [disabled]="!enablePayButton" [ngStyle]="enablePayButton ? enabledStyle : disabledStyle" *ngIf="showPayButton" (click)="pay()">
-          {{buttonText}}
-        </button>
+
+      <!-- No buttons are projected but styles are sent for the default button (Purchase). So, the sent styles will be used. -->
+      <div *ngIf="(buttonsRef.children.length === 0 && enabledStyle && disabledStyle)">
+          <button [disabled]="!enablePayButton" [ngStyle]="enablePayButton ? enabledStyle : disabledStyle" *ngIf="showPayButton" (click)="pay()">
+            {{buttonText}}
+          </button>
       </div>
+
+      <!-- Buttons are projected with no styles. -->
+      <!-- This is being handled via the directive. No styles will be applied as the user hasn't sent any styles. Default styles will not be applied. -->
+
+      <!-- Buttons are projected with styles -->
+      <!-- This is being handled via the directive. -->
+
+      
     </div>
     <div *ngIf="clientTokenNotReceived">
       <div class="error">Error! Client token not received.</div>
@@ -33,7 +47,7 @@ declare var braintree: any;
       </div>
     </div>`,
   styles: [`
-    .btn {
+    button {
       background-color: #009CDE;
       color: #ffffff;
       border: none;
@@ -44,7 +58,7 @@ declare var braintree: any;
       cursor: pointer;
     }
 
-    .btn-disabled {
+    button:disabled {
       background-color: lightblue;
       color: #ffffff;
       border: none;
@@ -75,6 +89,7 @@ declare var braintree: any;
 })
 export class NgxBraintreeComponent implements OnInit {
   @Output() paymentStatus: EventEmitter<any> = new EventEmitter<any>();
+  @Output() payButtonStatus: EventEmitter<any> = new EventEmitter<any>();
 
   @Input() clientTokenURL: string;
   @Input() createPurchaseURL: string;
@@ -174,13 +189,16 @@ export class NgxBraintreeComponent implements OnInit {
         this.instance = instance;
         if (this.instance.isPaymentMethodRequestable()) {
           this.enablePayButton = true;
+          this.payButtonStatus.emit(this.enablePayButton);
         }
         this.instance.on('paymentMethodRequestable', (event) => {
           this.enablePayButton = true;
+          this.payButtonStatus.emit(this.enablePayButton);
           this.changeDetectorRef.detectChanges();
         });
         this.instance.on('noPaymentMethodRequestable', (event) => {
           this.enablePayButton = false;
+          this.payButtonStatus.emit(this.enablePayButton);
           this.changeDetectorRef.detectChanges();
         });
       });
