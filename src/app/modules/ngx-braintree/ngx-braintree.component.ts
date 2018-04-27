@@ -16,7 +16,7 @@ declare var braintree: any;
     <div *ngIf="showDropinUI && clientToken" ngxBraintreeDirective>
       <div id="dropin-container"></div>
 
-      <div *ngIf="showPayButton" #buttonsRef><ng-content></ng-content></div>
+      <div #buttonsRef><ng-content></ng-content></div>
 
       <!-- No buttons are projected and no styles sent, so the default button (Purchase) with default styles will be used. -->
       <div *ngIf="(buttonsRef.children.length === 0 && !enabledStyle && !disabledStyle)">
