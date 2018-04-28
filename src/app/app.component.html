@@ -1,6 +1,14 @@
 Amount to charge: {{ chargeAmount | currency }}
 <br>
 
+<!-- Basic Test -->
+<!-- <ngx-braintree 
+    [clientTokenURL]="'api/braintree/getclienttoken'" 
+    [createPurchaseURL]="'api/braintree/createpurchase'" 
+    [chargeAmount]="chargeAmount"
+    (paymentStatus)="onPaymentStatus($event)">
+</ngx-braintree> -->
+
 <!-- When URLs are used -->
 <ngx-braintree 
     [clientTokenURL] = "'api/braintree/getclienttoken'" 
@@ -13,7 +21,7 @@ Amount to charge: {{ chargeAmount | currency }}
     [locale]="'en_AU'"
     [enabledStyle]="enabledStyle"
     [disabledStyle]="disabledStyle">
-    <!-- <img src="../assets/images/externalLoader.gif"> -->
+    <img src="../assets/images/externalLoader.gif">
     <div>
         <style>
             button {
