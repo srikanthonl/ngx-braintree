@@ -433,7 +433,7 @@ The `ngx-braintree` component can be optionally configured by providing the foll
     		</div>
     	</ngx-braintree>
         
- Demo featuring your own loader with your own buttons and styles. <br /> ![Two step process](https://srikanth.onl/wp-content/uploads/2018/04/ngx-BTGifDemo4.gif)
+ Demo featuring your own loader with your own buttons and styles. <br /> ![Content projection](https://srikanth.onl/wp-content/uploads/2018/04/ngx-BTGifDemo4.gif)
 
 <h1>Braintree Server API</h1>
 
