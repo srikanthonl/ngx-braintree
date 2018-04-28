@@ -1,6 +1,14 @@
 Amount to charge: {{ chargeAmount | currency }}
 <br>
 
+<!-- Basic Test -->
+<!-- <ngx-braintree 
+    [clientTokenURL]="'api/braintree/getclienttoken'" 
+    [createPurchaseURL]="'api/braintree/createpurchase'" 
+    [chargeAmount]="chargeAmount"
+    (paymentStatus)="onPaymentStatus($event)">
+</ngx-braintree> -->
+
 <!-- When URLs are used -->
 <ngx-braintree 
     [clientTokenURL]="'api/braintree/getclienttoken'" 
