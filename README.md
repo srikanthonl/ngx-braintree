@@ -449,32 +449,3 @@ Please report any issues/feature requests here: https://github.com/srikanthonl/n
 For more information please visit
 
 https://srikanth.onl/integrating-braintree-with-angular-applications/
-
-<h1>Change Log</h1>
-<h3>Version 1.9.0</h3>
-<ul>
-<li>ngx-braintree now supports projecting your own content with styles into it. </li>
-<li>ngx-braintree now provides better user experience by showing progress indicators whenever required. </li>
-<li>You can also project your own loader image to be consistent with your application.</li>
-</ul>
-<h3>Version 1.8.0</h3>
-<ul>
-<li>ngx-braintree now supports passing your own functions into it for getting a client token and handling purchases.</li>
-</ul>
-<h3>Version 1.7.1</h3>
-<ul>
-<li>Fixed an issue where Pay button was disabled even when Dropin was valid.</li>
-</ul>
-<h3>Version 1.7.0</h3>
-<ul>
-<li>Locale support.</li>
-<li>Enables/Disables Pay button when the Dropin UI goes Valid/Invalid.</li>
-<li>Fixed an issue where it was required to click the pay button twice when paying through PayPal checkout.</li>
-<li>Other enhancements</li>
-</ul>
-<h3>Version 1.6.0</h3>
-<ul>
-<li>
-ngx-braintree now supports Paypal Checkout and Paypal Vault. Check the optional configuration section of this document for more info.
-</li>
-</ul>
