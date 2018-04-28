@@ -359,13 +359,13 @@ The `ngx-braintree` component can be optionally configured by providing the foll
       });
     }
     ```
-10. **enabledStyle** and **disabledStyle**: Make the Purchase button's styles (when enabled and when disabled) consistent with your application's styles. Pass in enabled and disabled style objects as shown below:
+  10. **enabledStyle** and **disabledStyle**: Make the Purchase button's styles (when enabled and when disabled) consistent with your application's styles. Pass in enabled and disabled style objects as shown below:
 
 		```html
-		<ngx-braintree>
+		<ngx-braintree
     		...
     		[enabledStyle]="enabledStyle"
-    		[disabledStyle]="disabledStyle"
+    		[disabledStyle]="disabledStyle">
     	</ngx-braintree>
         
 		and these are the examples of objects that are being sent in the above example.
@@ -391,7 +391,8 @@ The `ngx-braintree` component can be optionally configured by providing the foll
           'font-size': '16px',
           'cursor': 'not-allowed'
         };
-   11. **Loader GIF**: ngx-braintree comes with a built-in loader gif animation which gets displayed when it's waiting for the client token to be received and after clicking Purchase, while it waits for the purchase response. You can also content project your own loader gif in the following way:
+        
+   11. **Loader GIF**: ngx-braintree comes with a built-in loader gif animation which gets displayed when it's waiting for the client token to be received and after clicking Purchase, while it waits for the purchase response. You can also content project your own loader gif in the following way. Scroll down for demo.
    
    		```html
 		<ngx-braintree
@@ -399,7 +400,7 @@ The `ngx-braintree` component can be optionally configured by providing the foll
             <img src="../assets/images/your_loader_image.gif">
     	</ngx-braintree>
         
-   12. You can do the following if you want to add your own buttons adjacent to the Purchase button, with your own styles (for ex: adding a back button, clicking upon which you will call your own method that navigates him back to the previous screen, or adding a Summary button which calls your own method that shows the user the Summary before he proceeds for the payment). This feature facilitates you in projecting your own content (ex: buttons) into ngx-braintree which are consistent and aligned as you'll be adding styles into the content that you are projecting. The below example projects a div with styles information and most importantly projects two buttons, Back button (which calls your own method) and **Purchase button (with ngxPay directive applied to it).** **Note: The Purchase button is not automatically rendered if you are using this feature. You have to add your own buttons and also add a button exclusively for Purchase and apply the ngxPay directive to it. That becomes your Purchase button. The Purchase button display text is ignored and replaced by the value of the buttonText input property.**
+   12. You can do the following if you want to add your own buttons adjacent to the Purchase button, with your own styles (for ex: adding a back button, clicking upon which you will call your own method that navigates him back to the previous screen, or adding a Summary button which calls your own method that shows the user the Summary before he proceeds for the payment). This feature (scroll down for demo) facilitates you in projecting your own content (ex: buttons) into ngx-braintree which are consistent and aligned as you'll be adding styles into the content that you are projecting. The below example projects a div with styles information and most importantly projects two buttons, Back button (which calls your own method) and **Purchase button (with ngxPay directive applied to it).** **Note: The Purchase button is not automatically rendered if you are using this feature. You have to add your own buttons and also add a button exclusively for Purchase and apply the ngxPay directive to it. That becomes your Purchase button. The Purchase button display text is ignored and replaced by the value of the buttonText input property.**
 
 		```html
 		<ngx-braintree
@@ -431,6 +432,8 @@ The `ngx-braintree` component can be optionally configured by providing the foll
         	<div><button (click)="navigateToPreviousPage()">Back</button> <button ngxPay>Purchase</button></div>
     		</div>
     	</ngx-braintree>
+        
+ Demo featuring your own loader with your own buttons and styles. <br /> ![Content projection](https://srikanth.onl/wp-content/uploads/2018/04/ngx-BTGifDemo4.gif)
 <h1>Braintree Server API</h1>
 
 As mentioned above, along with the client side work (which `ngx-braintree` component fully takes care of), Braintree also requires us to write two server side API methods. To successfully use the **ngx-braintree** component, a simple API with two methods is required (.NET code for those two methods is shown above). One method's URL is the value for the **clientTokenURL** and other method's URL is the value for the **createPurchaseURL** properties of the `ngx-braintree` component. These API methods can be developed very easily on any server platform by visiting the following link https://developers.braintreepayments.com/start/hello-server/dotnet
