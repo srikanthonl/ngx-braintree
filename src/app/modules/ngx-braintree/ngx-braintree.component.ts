@@ -8,15 +8,15 @@ declare var braintree: any;
   selector: 'ngx-braintree',
   template: `
     <div *ngIf="showLoader" style="position:relative; text-align: center;">
-      <div #loaderRef><ng-content select="img"></ng-content></div>
-      <img *ngIf="loaderRef.children.length === 0" src="{{loaderImage}}" />
+      <div #loaderRef><ng-content select=".ngxLoader" *ngIf="!hideLoader"></ng-content></div>
+      <img *ngIf="loaderRef.children.length === 0 && !hideLoader" src="{{loaderImage}}" />
     </div>
     <div class="error" *ngIf="errorMessage">Error</div>
     <div class="errorInfoDiv" *ngIf="errorMessage">{{errorMessage}}</div>
     <div *ngIf="showDropinUI && clientToken" ngxBraintreeDirective>
       <div id="dropin-container"></div>
 
-      <div #buttonsRef><ng-content></ng-content></div>
+      <div #buttonsRef><ng-content select=".ngxButtons"></ng-content></div>
 
       <!-- No buttons are projected and no styles sent, so the default button (Purchase) with default styles will be used. -->
       <div *ngIf="(buttonsRef.children.length === 0 && !enabledStyle && !disabledStyle)">
@@ -105,6 +105,7 @@ export class NgxBraintreeComponent implements OnInit {
   @Input() locale: string;
   @Input() enabledStyle: any;
   @Input() disabledStyle: any;
+  @Input() hideLoader = false;
 
   clientToken: string;
   nonce: string;
