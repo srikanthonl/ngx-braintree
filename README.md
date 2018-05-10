@@ -408,12 +408,14 @@ The `ngx-braintree` component can be optionally configured by providing the foll
             
     	</ngx-braintree>
         
-   13. You can do the following if you want to add your own buttons adjacent to the Purchase button, with your own styles (for ex: adding a back button, clicking upon which you will call your own method that navigates him back to the previous screen, or adding a Summary button which calls your own method that shows the user the Summary before he proceeds for the payment). This feature (scroll down for demo) facilitates you in projecting your own content (ex: buttons) into ngx-braintree which are consistent and aligned as you'll be adding styles into the content that you are projecting. The below example projects a div with styles information and most importantly projects two buttons, Back button (which calls your own method) and **Purchase button (with ngxPay directive applied to it).** **Note: The Purchase button is not automatically rendered if you are using this feature. You have to add your own buttons and also add a button exclusively for Purchase and apply the ngxPay directive to it. That becomes your Purchase button. The Purchase button display text is ignored and replaced by the value of the buttonText input property.**
+   13. You can do the following if you want to add your own buttons adjacent to the Purchase button, with your own styles (for ex: adding a back button, clicking upon which you will call your own method that navigates him back to the previous screen, or adding a Summary button which calls your own method that shows the user the Summary before he proceeds for the payment). This feature (scroll down for demo) facilitates you in projecting your own content (ex: buttons) into ngx-braintree which are consistent and aligned as you'll be adding styles into the content that you are projecting. The below example projects a div with styles information and most importantly projects two buttons, Back button (which calls your own method) and **Purchase button (with ngxPay directive applied to it).** **Note: The Purchase button is not automatically rendered if you are using this feature. You have to add your own buttons and also add a button exclusively for Purchase and apply the ngxPay directive to it. That becomes your Purchase button. **
+
+**Note**: It is important that you specify **class="ngxButtons"**, otherwise it wont be picked up and the default Purchase button will be shown.
 
 		```html
 		<ngx-braintree
     		...>
-            <div>
+            <div class="ngxButtons">
         	<style>
               button {
                   background-color: red;
