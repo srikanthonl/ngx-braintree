@@ -402,7 +402,7 @@ The `ngx-braintree` component can be optionally configured by providing the foll
    12. **hideLoader**: You can optionally hide the loader of ngx-braintree by passing hideLoader = "true" as shown below. This will hide the built-in as well as any projected loader.
    
       	```html
-    <ngx-braintree
+    	<ngx-braintree
         ...
     		[hideLoader]="true">
             
