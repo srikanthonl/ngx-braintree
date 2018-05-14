@@ -15,7 +15,8 @@ import { NgxBraintreePayDirective } from './ngx-braintree-pay.directive';
   declarations: [
     NgxBraintreeComponent,
     NgxBraintreeDirective,
-    NgxBraintreePayDirective],
+    NgxBraintreePayDirective
+  ],
   exports: [
     NgxBraintreeComponent,
     NgxBraintreePayDirective
