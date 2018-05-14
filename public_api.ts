@@ -1,1 +1,0 @@
-export * from './src/app/modules/ngx-braintree/ngx-braintree.module';

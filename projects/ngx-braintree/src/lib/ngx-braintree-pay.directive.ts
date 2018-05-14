@@ -15,7 +15,7 @@ export class NgxBraintreePayDirective implements OnInit, OnDestroy {
 
     // Disable the pay button initially. This will be enabled after the user fills the dropin information.
     this.renderer.setProperty(this.elementRef.nativeElement, 'disabled', true);
-    
+
     // Subscribe the payButtonStatus event to enable disable the pay button
     this.ngxBtComponent
       .payButtonStatus

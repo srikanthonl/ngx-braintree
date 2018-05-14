@@ -1,11 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { NgxBraintreeModule } from './modules/ngx-braintree/ngx-braintree.module';
-
+import { NgxBraintreeModule } from 'ngx-braintree';
 
 import { AppComponent } from './app.component';
-
 
 @NgModule({
   declarations: [
