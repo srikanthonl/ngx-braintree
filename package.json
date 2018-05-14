@@ -1,6 +1,6 @@
 {
   "name": "ngx-braintree",
-  "version": "1.9.1",
+  "version": "4.0.0",
   "description": "Integrating braintree dropin UI in Angular 4.x and Angular 5.x applications",
   "homepage": "https://srikanth.onl/integrating-braintree-with-angular-applications/",
   "bugs": {
