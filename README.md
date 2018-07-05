@@ -448,6 +448,14 @@ The `ngx-braintree` component can be optionally configured by providing the foll
     	</ngx-braintree>
         
  Demo featuring your own loader with your own buttons and styles. <br /> ![Content projection](https://srikanth.onl/wp-content/uploads/2018/04/ngx-BTGifDemo4.gif)
+  
+  14. ngx-braintree emits an event named dropinLoaded. This is the event which is emitted when the dropin has loaded. If you want to run any functionality that runs after the dropin has loaded, this is the event that you should listen to. The following is the example:
+
+      ```html
+      <ngx-braintree 
+        ...
+        (dropinLoaded)="onDropinLoaded($event)">
+      </ngx-braintree>
 
 <h1>Braintree Server API</h1>
 
