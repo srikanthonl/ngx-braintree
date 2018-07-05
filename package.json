@@ -1,6 +1,6 @@
 {
   "name": "ngx-braintree",
-  "version": "6.1.1",
+  "version": "6.1.2",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.config.json",
