@@ -88,6 +88,7 @@ declare var braintree: any;
     }`]
 })
 export class NgxBraintreeComponent implements OnInit {
+  @Output() dropinLoaded: EventEmitter<any> = new EventEmitter<any>();
   @Output() paymentStatus: EventEmitter<any> = new EventEmitter<any>();
   @Output() payButtonStatus: EventEmitter<any> = new EventEmitter<any>();
 
@@ -186,6 +187,7 @@ export class NgxBraintreeComponent implements OnInit {
           this.showLoader = false;  
           return;
         }
+        this.dropinLoaded.emit();
         this.showPayButton = true;
         this.showLoader = false;
         this.instance = instance;
