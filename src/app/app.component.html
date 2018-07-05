@@ -83,6 +83,7 @@ Amount to charge: {{ chargeAmount | currency }}
     [createPurchaseURL]="'api/braintree/createpurchase'" 
     [chargeAmount]="chargeAmount"
     (paymentStatus)="onPaymentStatus($event)"
+    (dropinLoaded)="OnDropInLoaded($event)"
     [hideLoader]="true">
     <div class="ngxLoader"><img src="../assets/images/externalLoader.gif"></div>
     <div class="ngxButtons">
