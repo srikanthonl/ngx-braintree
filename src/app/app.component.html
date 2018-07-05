@@ -3,7 +3,8 @@
     [clientTokenURL]="'api/braintree/getclienttoken'" 
     [createPurchaseURL]="'api/braintree/createpurchase'" 
     [chargeAmount]="chargeAmount"
-    (paymentStatus)="onPaymentStatus($event)">
+    (paymentStatus)="onPaymentStatus($event)"
+    (dropinLoaded)="onDropinLoaded($event)">
 </ngx-braintree>
 
 <pre>{{ paymentResponse | json }}</pre>
