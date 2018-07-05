@@ -445,6 +445,14 @@ The `ngx-braintree` component can be optionally configured by providing the foll
         
  Demo featuring your own loader with your own buttons and styles. <br /> ![Content projection](https://srikanth.onl/wp-content/uploads/2018/04/ngx-BTGifDemo4.gif)
 
+  14. ngx-braintree emits an event named dropinLoaded. This is the event which is emitted when the dropin has loaded. If you want to run any functionality that runs after the dropin has loaded, this is the event that you should listen to. The following is the example:
+
+      ```html
+      <ngx-braintree 
+        ...
+        (dropinLoaded)="onDropinLoaded($event)">
+      </ngx-braintree>
+      
 <h1>Braintree Server API</h1>
 
 As mentioned above, along with the client side work (which `ngx-braintree` component fully takes care of), Braintree also requires us to write two server side API methods. To successfully use the **ngx-braintree** component, a simple API with two methods is required (.NET code for those two methods is shown above). One method's URL is the value for the **clientTokenURL** and other method's URL is the value for the **createPurchaseURL** properties of the `ngx-braintree` component. These API methods can be developed very easily on any server platform by visiting the following link https://developers.braintreepayments.com/start/hello-server/dotnet
