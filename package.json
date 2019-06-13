@@ -1,6 +1,6 @@
 {
   "name": "ngx-braintree",
-  "version": "6.1.4",
+  "version": "6.1.5",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.config.json",
@@ -30,7 +30,7 @@
     "ng-packagr": "^5.3.0",
     "tsickle": "^0.35.0",
     "tslib": "^1.10.0",
-    "typescript": "^3.5.2",
+    "typescript": "3.4.5",
     "@angular/cli": "^8.0.2",
     "@angular/language-service": "^8.0.0",
     "@types/jasmine": "~2.8.6",
