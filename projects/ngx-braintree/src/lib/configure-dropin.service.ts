@@ -10,7 +10,7 @@ export class ConfigureDropinService {
       cardholderName: {
         required: true
       }
-    }
+    };
   }
 
   configurePaypalCheckout(dropinConfig, chargeAmount, currency): void {
@@ -18,17 +18,16 @@ export class ConfigureDropinService {
       flow: 'checkout',
       amount: chargeAmount,
       currency: currency
-    }
+    };
   }
 
   configurePaypalVault(dropinConfig) {
     dropinConfig.paypal = {
       flow: 'vault'
-    }
+    };
   }
 
   configureLocale(dropinConfig, locale) {
     dropinConfig.locale = locale;
   }
-
 }

@@ -4,6 +4,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {HttpClientModule} from '@angular/common/http';
 import {NgxBraintreeModule} from 'ngx-braintree';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
+import {Type} from '@angular/core';
 
 describe('AppComponent', () => {
   let httpTestingController: HttpTestingController;
@@ -21,7 +22,7 @@ describe('AppComponent', () => {
       ]
     }).compileComponents();
 
-    httpTestingController = TestBed.get(HttpTestingController);
+    httpTestingController = TestBed.get(HttpTestingController as Type<HttpTestingController>);
 
     spyOn(console, 'error');
   }));
@@ -46,7 +47,7 @@ describe('AppComponent', () => {
     fixture.detectChanges();
     const req = httpTestingController.expectOne('api/braintree/getclienttoken');
     expect(req.request.method).toBe('GET');
-    req.flush({}, { status: 404, statusText: 'Not found' });
+    req.flush({}, {status: 404, statusText: 'Not found'});
     fixture.detectChanges();
     expect(console.error).toHaveBeenCalled();
   }));

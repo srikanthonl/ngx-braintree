@@ -30,7 +30,7 @@ export class NgxBraintreePayDirective implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // Set the text on the button to the buttonText property that was sent. 
+    // Set the text on the button to the buttonText property that was sent.
     // this.renderer.setProperty(this.elementRef.nativeElement, 'innerText', this.ngxBtComponent.buttonText);
   }
 
