@@ -1,6 +1,6 @@
 <h1>Integrating Braintree in Angular applications</h1>
 
-This module integrates the Braintree Dropin UI integration (v3) with your Angular 4.x, 5.x, 6.x and 8.x applications. The integration aims at componentizing the Braintree-Angular integration so that you can just use the component `<ngx-braintree></ngx-braintree>` anywhere in your application and you are good to go. 
+This module integrates the Braintree Dropin UI integration (v3) with your Angular 4.x, 5.x, 6.x, 7.x and 8.x applications. The integration aims at componentizing the Braintree-Angular integration so that you can just use the component `<ngx-braintree></ngx-braintree>` anywhere in your application and you are good to go. 
 
 ![Demo](https://srikanth.onl/wp-content/uploads/2018/04/ngx-BTGifDemo1.gif)
 
@@ -10,7 +10,10 @@ This module integrates the Braintree Dropin UI integration (v3) with your Angula
 
 First, if your application is in Angular 8.x, install ngx-braintree by issuing the following command:
 
-> npm install ngx-braintree --save
+  > npm install ngx-braintree --save
+
+If your application is in Angular 7.x, install ngx-braintree by issuing the following command:
+  > npm install ngx-braintree@a7 --save
 
 If your application is in Angular 6.x, install ngx-braintree by issuing the following command:
 
