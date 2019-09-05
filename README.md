@@ -10,10 +10,11 @@ This module integrates the Braintree Dropin UI integration (v3) with your Angula
 
 First, if your application is in Angular 8.x, install ngx-braintree by issuing the following command:
 
-  > npm install ngx-braintree --save
+> npm install ngx-braintree --save
 
 If your application is in Angular 7.x, install ngx-braintree by issuing the following command:
-  > npm install ngx-braintree@a7 --save
+
+ > npm install ngx-braintree@a7 --save
 
 If your application is in Angular 6.x, install ngx-braintree by issuing the following command:
 
