@@ -13,7 +13,7 @@ export class NgxBraintreeDirective implements OnInit, OnDestroy {
   ngOnInit() {
     this.script = this.renderer.createElement('script');
     this.script.type = 'text/javascript';
-    this.script.src = 'https://js.braintreegateway.com/web/dropin/1.13.0/js/dropin.min.js';
+    this.script.src = 'https://js.braintreegateway.com/web/dropin/1.22.1/js/dropin.min.js';
     this.renderer.appendChild(this.document.body, this.script);
   }
 

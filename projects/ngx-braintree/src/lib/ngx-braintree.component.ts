@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgxBraintreeService } from './ngx-braintree.service';
 import { ConfigureDropinService } from './configure-dropin.service';
+import { IThreeDParameters } from './models/threeDParameters';
 
 declare var braintree: any;
 
@@ -107,6 +108,7 @@ export class NgxBraintreeComponent implements OnInit {
   @Input() enabledStyle: any;
   @Input() disabledStyle: any;
   @Input() hideLoader = false;
+  @Input() threeDParameters: IThreeDParameters;
 
   clientToken: string;
   nonce: string;
@@ -167,6 +169,7 @@ export class NgxBraintreeComponent implements OnInit {
     if (typeof braintree !== 'undefined') {
       this.dropinConfig.authorization = this.clientToken;
       this.dropinConfig.container = '#dropin-container';
+      this.dropinConfig.threeDSecure = this.threeDParameters != null;
 
       if (this.showCardholderName) {
         this.configureDropinService.configureCardHolderName(this.dropinConfig);
@@ -213,7 +216,8 @@ export class NgxBraintreeComponent implements OnInit {
 
   pay(): void {
     if (this.instance) {
-      this.instance.requestPaymentMethod((err, payload) => {
+      const options = this.threeDParameters ? { threeDSecure: this.threeDParameters } : {};
+      this.instance.requestPaymentMethod(options, (err, payload) => {
         if (err) {
           console.error(err);
           this.errorMessage = err;
