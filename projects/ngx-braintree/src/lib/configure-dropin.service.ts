@@ -25,6 +25,7 @@ export class ConfigureDropinService {
     dropinConfig.paypal = {
       flow: 'vault'
     };
+    dropinConfig.vaultManager = true;
   }
 
   configureLocale(dropinConfig, locale) {
